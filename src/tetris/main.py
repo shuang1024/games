@@ -1,6 +1,5 @@
 import time
 import random
-from copy import deepcopy
 
 import pygame
 
@@ -30,6 +29,7 @@ def main():
     start = time.time()
     display.fill(GRAY)
     draw(display, board)
+    drop = False
 
     while True:
         clock.tick(FPS)
@@ -45,8 +45,16 @@ def main():
                 if event.key == pygame.K_RIGHT:
                     curr_block.move("right", board)
                 if event.key == pygame.K_DOWN:
-                    curr_block.move("down", board)
+                    drop = True
 
+        if curr_block:
+            curr_block.update_board(board)
+            draw(display, board)
+
+        if drop and curr_block:
+            curr_block.move("down", board)
+            curr_block = None
+            drop = False
 
         if time.time() - start > PAUSE:
             if not curr_block:
@@ -56,9 +64,9 @@ def main():
                     continue
 
             curr_block.y += 1
-            curr_block.update_board(board)
-            start = time.time()
             display.fill(GRAY)
+            start = time.time()
+            curr_block.update_board(board)
             draw(display, board)
 
 

@@ -1,4 +1,7 @@
+from copy import deepcopy
+
 import pygame
+
 from constants import *
 
 
@@ -25,4 +28,11 @@ class Block:
             self.x += 1
         if dir == "down":
             board[self.x][self.y] = 7
-            self.y = B_HEIGHT-1
+            for i in range(self.y+1, B_HEIGHT):
+                if board[self.x][i] != 7:
+                    max_y = i-1
+                    break
+                else:
+                    max_y = B_HEIGHT-1
+            self.y = max_y
+            self.update_board(board)
