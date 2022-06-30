@@ -43,7 +43,6 @@ def main():
 
         if time.time() - start > PAUSE:
             new_board = deepcopy(board)
-            print(time.time()-start)
             if not curr_block:
                 curr_block = Block(random.randint(0, 6))
             else:

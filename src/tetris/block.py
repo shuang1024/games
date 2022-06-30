@@ -9,10 +9,9 @@ class Block:
             self.x = B_WIDTH//2-2
         else:
             self.x = B_WIDTH//2-1
-        self.y = 0
+        self.y = -1
 
     def update_board(self, board):
         if self.y != 0:
             board[self.x][self.y] = 7
         board[self.x][self.y] = self.type
-        print(self.x, self.y)
