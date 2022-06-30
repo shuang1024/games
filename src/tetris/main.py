@@ -39,23 +39,27 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return
+            if event.type == pygame.KEYDOWN and curr_block:
+                if event.key == pygame.K_LEFT:
+                    curr_block.move("left", board)
+                if event.key == pygame.K_RIGHT:
+                    curr_block.move("right", board)
+                if event.key == pygame.K_DOWN:
+                    curr_block.move("down", board)
 
 
         if time.time() - start > PAUSE:
-            new_board = deepcopy(board)
             if not curr_block:
                 curr_block = Block(random.randint(0, 6))
-            else:
-                if curr_block.y == B_HEIGHT-1 or board[curr_block.x][curr_block.y-1] != 7:
+            elif curr_block.y == B_HEIGHT-1 or board[curr_block.x][curr_block.y+1] != 7:
                     curr_block = None
                     continue
 
             curr_block.y += 1
-            curr_block.update_board(new_board)
+            curr_block.update_board(board)
             start = time.time()
             display.fill(GRAY)
-            draw(display, new_board)
-            new_board = board
+            draw(display, board)
 
 
 main()
