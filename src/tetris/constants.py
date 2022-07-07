@@ -8,22 +8,16 @@ WIDTH = B_WIDTH*SQ_SIZE + 2*BORD_SIZE
 HEIGHT = B_HEIGHT*SQ_SIZE + 2*BORD_SIZE
 
 FPS = 60
-PAUSE = 1
+PAUSE = 0.75
 
-BLACK = (0, 0, 0) # BG
-RED = (255, 0, 0) # L
-GREEN = (0, 255, 0) # Box
-BLUE = (0, 0, 255) # Z
-YELLOW = (255, 255, 0) # Long
-MAGENTA = (255, 0, 255) # T
-CYAN = (0, 255, 255) # S
-ORANGE = (255, 128, 0) # Reversed L
-GRAY = (128, 128, 128) # Border
+BG = (0, 0, 0)
+Z = (255, 0, 0)
+S = (0, 255, 0)
+REV_L = (0, 0, 255)
+BOX = (255, 255, 0)
+T = (255, 0, 255)
+LONG = (0, 255, 255)
+L = (255, 128, 0)
+BORDER = (128, 128, 128)
 
-L = 0
-BOX = 1
-Z = 2
-LONG = 3
-T = 4
-S = 5
-REV_L = 6
+BOX_OFFSETS = [(0, 0), (1, 0), (1, 1), (0, 1)]

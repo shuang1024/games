@@ -1,5 +1,7 @@
+from lib2to3.pgen2.token import VBAR
 import time
 import random
+from copy import deepcopy
 
 import pygame
 
@@ -9,12 +11,11 @@ from block import *
 display = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Tetris")
 
-type_col = {0:RED, 1:GREEN, 2:BLUE, 3:YELLOW, 4:MAGENTA, 5:CYAN, 6:ORANGE, 7:BLACK}
 
 def draw(display, board):
     for i in range(B_WIDTH):
         for j in range(B_HEIGHT):
-            pygame.draw.rect(display, type_col[board[i][j]], (BORD_SIZE+SQ_SIZE*i, BORD_SIZE+SQ_SIZE*j, SQ_SIZE, SQ_SIZE))
+            pygame.draw.rect(display, board[i][j], (BORD_SIZE+SQ_SIZE*i, BORD_SIZE+SQ_SIZE*j, SQ_SIZE, SQ_SIZE))
 
 
 def main():
@@ -22,14 +23,14 @@ def main():
     board = []
     for i in range(B_WIDTH):
         board.append([])
-        for j in range(B_HEIGHT):
-            board[i].append(7)
+        for _ in range(B_HEIGHT):
+            board[i].append(BG)
+    board_copy = deepcopy(board)
 
     curr_block = None
     start = time.time()
-    display.fill(GRAY)
-    draw(display, board)
-    drop = False
+    display.fill(BORDER)
+    draw(display, board_copy)
 
     while True:
         clock.tick(FPS)
@@ -45,29 +46,26 @@ def main():
                 if event.key == pygame.K_RIGHT:
                     curr_block.move("right", board)
                 if event.key == pygame.K_DOWN:
-                    drop = True
-
-        if curr_block:
-            curr_block.update_board(board)
-            draw(display, board)
-
-        if drop and curr_block:
-            curr_block.move("down", board)
-            curr_block = None
-            drop = False
+                    curr_block.move("down", board)
+                    curr_block.update_board(board)
+                    board_copy = board
+                    curr_block = None
 
         if time.time() - start > PAUSE:
             if not curr_block:
-                curr_block = Block(random.randint(0, 6))
-            elif curr_block.y == B_HEIGHT-1 or board[curr_block.x][curr_block.y+1] != 7:
-                    curr_block = None
-                    continue
-
+                curr_block = Block(BOX, BOX_OFFSETS)
+            
             curr_block.y += 1
-            display.fill(GRAY)
+            display.fill(BORDER)
             start = time.time()
-            curr_block.update_board(board)
-            draw(display, board)
+
+            board_copy = deepcopy(board)
+            curr_block.update_board(board_copy)
+            draw(display, board_copy)
+
+            if curr_block.is_end(board):
+                board = board_copy
+                curr_block = None
 
 
 main()
