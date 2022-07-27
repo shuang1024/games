@@ -23,7 +23,7 @@ class Block:
             if curry > B_HEIGHT-self.max_y-1:
                 self.y += 1
                 return True
-            elif board[currx][curry+1] != BG:
+            elif board[curry+1][currx] != BG:
                 return True
 
     def update_board(self, board):
@@ -32,7 +32,7 @@ class Block:
         if self.x > B_WIDTH-self.max_x-1:
             self.x = B_WIDTH-self.max_x-1
         for i in self.offsets[self.rot_index]:
-            board[self.x+i[0]][self.y+i[1]] = self.type
+            board[self.y+i[1]][self.x+i[0]] = self.type
 
     def update_min_max_x_y(self):
         self.min_x = 10
@@ -54,7 +54,7 @@ class Block:
 
     def clear_self(self, board):
         for i in self.offsets[self.rot_index]:
-            board[self.x+i[0]][self.y+i[1]] = BG
+            board[self.y+i[1]][self.x+i[0]] = BG
 
     def rotate(self, dir, board):
         if dir == "left":
@@ -71,13 +71,13 @@ class Block:
         if dir == "left" and self.x > self.min_x:
             self.clear_self(board)
             for i in self.offsets[self.rot_index]:
-                if board[self.x+i[0]-1][self.y+i[1]] != BG:
+                if board[self.y+i[1]][self.x+i[0]-1] != BG:
                     return
             self.x -= 1
 
         if dir == "right" and self.x < B_WIDTH-self.max_x-1:
             self.clear_self(board)
             for i in self.offsets[self.rot_index]:
-                if board[self.x+i[0]+1][self.y+i[1]] != BG:
+                if board[self.y+i[1]][self.x+i[0]+1] != BG:
                     return
             self.x += 1

@@ -14,7 +14,7 @@ pygame.display.set_caption("Tetris")
 def draw(display, board):
     for i in range(B_WIDTH):
         for j in range(B_HEIGHT):
-            pygame.draw.rect(display, board[i][j], (BORD_SIZE+SQ_SIZE*i, BORD_SIZE+SQ_SIZE*j, SQ_SIZE, SQ_SIZE))
+            pygame.draw.rect(display, board[j][i], (BORD_SIZE+SQ_SIZE*i, BORD_SIZE+SQ_SIZE*j, SQ_SIZE, SQ_SIZE))
 
 
 def remove_rows(board):
@@ -22,7 +22,7 @@ def remove_rows(board):
     for i in range(B_HEIGHT):
         clear = False
         for j in range(B_WIDTH):
-            if board[j][i] == BG:
+            if board[i][j] == BG:
                 clear = False
                 break
             else:
@@ -31,8 +31,6 @@ def remove_rows(board):
             indexes.append(i)
 
     for i in indexes:
-        print(i)
-        print(len(board))
         board.pop(i)
         board.insert(0, [])
         for _ in range(B_WIDTH):
@@ -45,9 +43,9 @@ def main():
     clock = pygame.time.Clock()
     pause = 0.75
     board = []
-    for i in range(B_WIDTH):
+    for i in range(B_HEIGHT):
         board.append([])
-        for _ in range(B_HEIGHT):
+        for _ in range(B_WIDTH):
             board[i].append(BG)
     board_copy = deepcopy(board)
 
