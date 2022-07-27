@@ -70,12 +70,20 @@ def main():
                 if event.key == pygame.K_RIGHT:
                     curr_block.move("right", board_copy)
                 if event.key == pygame.K_DOWN:
-                    down = True
-                    pause = 0.1
+                    curr_block.move("drop", board_copy)
+                    board = board_copy
+                    curr_block.update_board(board)
+                    draw(display, board)
+                    curr_block = None
+
                 if event.key == pygame.K_a:
                     curr_block.rotate("left", board_copy)
                 if event.key == pygame.K_d:
                     curr_block.rotate("right", board_copy)
+                if event.key == pygame.K_s:
+                    curr_block
+                    down = True
+                    pause = 0.1
 
                 if curr_block:
                     curr_block.update_board(board_copy)
@@ -103,7 +111,6 @@ def main():
             if curr_block.is_end(board):
                 curr_block = None
                 board = board_copy
-
 
 
 main()
