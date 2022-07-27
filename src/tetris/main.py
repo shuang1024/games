@@ -92,9 +92,6 @@ def main():
                 pause = 0.75
                 down = False
 
-        if curr_block:
-            curr_block.clear_self(board_copy)
-
         board = remove_rows(board)
         if time.time() - start > pause:
             if not curr_block:
