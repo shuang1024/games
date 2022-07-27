@@ -17,6 +17,30 @@ def draw(display, board):
             pygame.draw.rect(display, board[i][j], (BORD_SIZE+SQ_SIZE*i, BORD_SIZE+SQ_SIZE*j, SQ_SIZE, SQ_SIZE))
 
 
+def remove_rows(board):
+    indexes = []
+    for i in range(B_HEIGHT):
+        clear = False
+        for j in range(B_WIDTH):
+            if board[j][i] == BG:
+                clear = False
+                break
+            else:
+                clear = True
+        if clear:
+            indexes.append(i)
+
+    for i in indexes:
+        print(i)
+        print(len(board))
+        board.pop(i)
+        board.insert(0, [])
+        for _ in range(B_WIDTH):
+            board[0].append(BG)
+
+    return board
+
+
 def main():
     clock = pygame.time.Clock()
     pause = 0.75
@@ -65,6 +89,7 @@ def main():
         if curr_block:
             curr_block.clear_self(board_copy)
 
+        board = remove_rows(board)
         if time.time() - start > pause:
             if not curr_block:
                 index = random.randint(0, min(len(BLOCK_COLORS), len(BLOCK_OFFSETS))-1)
@@ -80,6 +105,7 @@ def main():
             if curr_block.is_end(board):
                 curr_block = None
                 board = board_copy
+
 
 
 main()
