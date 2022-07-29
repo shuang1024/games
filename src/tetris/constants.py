@@ -1,11 +1,14 @@
 import pygame
+pygame.init()
 
 SQ_SIZE = 20
-BORD_SIZE = 15
+BORD_SIZE = 20
 B_WIDTH = 10
 B_HEIGHT = 20
-WIDTH = B_WIDTH*SQ_SIZE + 2*BORD_SIZE
+WIDTH = B_WIDTH*SQ_SIZE + 2*BORD_SIZE+SQ_SIZE*9
 HEIGHT = B_HEIGHT*SQ_SIZE + 2*BORD_SIZE
+
+FONT = pygame.font.SysFont(None, 30)
 
 FPS = 60
 
@@ -18,6 +21,7 @@ T = (255, 0, 255)
 LONG = (0, 255, 255)
 L = (255, 128, 0)
 BORDER = (128, 128, 128)
+WHITE = (255, 255, 255)
 
 Z_OFFSETS = [[(0, 0), (0, -1), (-1, -1), (1, 0)], [(0, 0), (1, 0), (1, -1), (0, 1)]]
 S_OFFSETS = [[(0, 0), (0, -1), (1, -1), (-1, 0)], [(0, 0), (-1, 0), (-1, -1), (0, 1)]]
