@@ -110,7 +110,7 @@ def main():
                     curr_block.move("left", board_copy)
                 if event.key == pygame.K_RIGHT:
                     curr_block.move("right", board_copy)
-                if event.key == pygame.K_DOWN:
+                if event.key in (pygame.K_DOWN, pygame.K_SPACE):
                     curr_block.move("drop", board_copy)
                     board = board_copy
                     curr_block.update_board(board)

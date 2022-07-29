@@ -9,7 +9,7 @@ left arrow - move block left
 
 right arrow - move block right
 
-down arrow - drop block
+spacebar or down arrow - drop block
 
 a - rotate block to the left
 

@@ -7,7 +7,7 @@ class Block:
     def __init__(self, type, offsets):
         self.type = type
         if self.type == LONG:
-            self.x = B_WIDTH//2+1
+            self.x = B_WIDTH//2
         else:
             self.x = B_WIDTH//2-1
         self.offsets = offsets
