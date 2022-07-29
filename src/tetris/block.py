@@ -7,14 +7,14 @@ class Block:
     def __init__(self, type, offsets):
         self.type = type
         if self.type == LONG:
-            self.x = B_WIDTH//2-2
+            self.x = B_WIDTH//2+1
         else:
             self.x = B_WIDTH//2-1
         self.offsets = offsets
         self.rot_index = 0
         
         self.update_min_max_x_y()
-        self.y = abs(self.min_y)-1
+        self.y = self.min_y-1
 
     def is_end(self, board):
         if self.y == B_HEIGHT-self.max_y-1:
