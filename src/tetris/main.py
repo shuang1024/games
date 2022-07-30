@@ -231,6 +231,22 @@ def main():
                 pause = 0.75
                 down = False
 
+        while board[0] != [BG, BG, BG, BG, BG, BG, BG, BG, BG, BG]:
+            lose_text = FONT.render("You lost!", True, WHITE)
+            click_text = FONT.render("Click to play again.", True, WHITE)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    return
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    print('a')
+                    main()
+                    return
+            display.fill(BG)
+            display.blit(lose_text, (WIDTH//2-lose_text.get_width()//2, HEIGHT//2-lose_text.get_height()))
+            display.blit(click_text, (WIDTH//2-click_text.get_width()//2, HEIGHT//2))
+            pygame.display.update()
+
         board, score = remove_rows(board, score)
         if time.time() - start > pause:
             if not curr_block:
