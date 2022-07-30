@@ -34,10 +34,6 @@ class Block:
         for i in self.offsets[self.rot_index]:
             board[self.y+i[1]][self.x+i[0]] = self.type
 
-    def update_next(self, display):
-        for i in self.offsets[self.rot_index]:
-            pygame.draw.rect(display, self.type, (self.x + i[0]*SQ_SIZE, self.y + i[1]*SQ_SIZE, SQ_SIZE, SQ_SIZE))
-
     def update_min_max_x_y(self):
         self.min_x = 10
         self.max_x = -10

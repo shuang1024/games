@@ -15,7 +15,33 @@ pygame.display.set_caption("Tetris")
 def draw(display, board, score, next, hold):
     for i in range(B_WIDTH):
         for j in range(B_HEIGHT):
-            pygame.draw.rect(display, board[j][i], (BORD_SIZE+SQ_SIZE*i, BORD_SIZE+SQ_SIZE*j, SQ_SIZE, SQ_SIZE))
+            pygame.draw.rect(display, BG, ((i+1)*SQ_SIZE, (j+1)*SQ_SIZE, SQ_SIZE, SQ_SIZE))
+            if board[j][i] != BG:
+                pygame.draw.polygon(display, board[j][i], (((i+1)*SQ_SIZE, (j+1)*SQ_SIZE),
+                    ((i+1.2)*SQ_SIZE, (j+1.2)*SQ_SIZE),
+                    ((i+1.8)*SQ_SIZE, (j+1.2)*SQ_SIZE),
+                    ((i+2)*SQ_SIZE, (j+1)*SQ_SIZE)))
+                pygame.draw.polygon(display, board[j][i], (((i+1)*SQ_SIZE, (j+1)*SQ_SIZE),
+                    ((i+1.2)*SQ_SIZE, (j+1.2)*SQ_SIZE),
+                    ((i+1.2)*SQ_SIZE, (j+1.8)*SQ_SIZE),
+                    ((i+1)*SQ_SIZE, (j+2)*SQ_SIZE)))
+
+                a = []
+                for z in board[j][i]:
+                    a.append(z*2/5)
+                pygame.draw.polygon(display, a, (((i+1)*SQ_SIZE, (j+2)*SQ_SIZE),
+                    ((i+1.2)*SQ_SIZE, (j+1.8)*SQ_SIZE),
+                    ((i+1.8)*SQ_SIZE, (j+1.8)*SQ_SIZE),
+                    ((i+2)*SQ_SIZE, (j+2)*SQ_SIZE)))
+                pygame.draw.polygon(display, a, (((i+2)*SQ_SIZE, (j+1)*SQ_SIZE),
+                    ((i+1.8)*SQ_SIZE, (j+1.2)*SQ_SIZE),
+                    ((i+1.8)*SQ_SIZE, (j+1.8)*SQ_SIZE),
+                    ((i+2)*SQ_SIZE, (j+2)*SQ_SIZE)))
+
+                b = []
+                for z in board[j][i]:
+                    b.append(z*4/5)
+                pygame.draw.rect(display, b, ((i+1.2)*SQ_SIZE, (j+1.2)*SQ_SIZE, SQ_SIZE*3/5, SQ_SIZE*3/5))
 
     score_text = FONT.render(f"{score}", True, WHITE)
     display.blit(FONT.render("Score:", True, WHITE), (SQ_SIZE*12, SQ_SIZE*2))
@@ -28,29 +54,85 @@ def draw(display, board, score, next, hold):
         hold_display = deepcopy(hold)
         hold_display.rot_index = 0
         if hold_display.type == LONG:
-            hold_display.x = SQ_SIZE*16
-            hold_display.y = SQ_SIZE*10.5
+            hold_display.x = 15
+            hold_display.y = 9.5
         elif hold_display.type == BOX:
-            hold_display.x = SQ_SIZE*15
-            hold_display.y = SQ_SIZE*10
+            hold_display.x = 14
+            hold_display.y = 9
         else:
-            hold_display.x = SQ_SIZE*15.5
-            hold_display.y = SQ_SIZE*11
-        hold_display.update_next(display)
+            hold_display.x = 14.5
+            hold_display.y = 10
+
+        for i in hold_display.offsets[hold_display.rot_index]:
+            currx = hold_display.x + i[0]
+            curry = hold_display.y + i[1]
+            pygame.draw.polygon(display, hold_display.type, (((currx+1)*SQ_SIZE, (curry+1)*SQ_SIZE),
+                ((currx+1.2)*SQ_SIZE, (curry+1.2)*SQ_SIZE),
+                ((currx+1.8)*SQ_SIZE, (curry+1.2)*SQ_SIZE),
+                ((currx+2)*SQ_SIZE, (curry+1)*SQ_SIZE)))
+            pygame.draw.polygon(display, hold_display.type, (((currx+1)*SQ_SIZE, (curry+1)*SQ_SIZE),
+                ((currx+1.2)*SQ_SIZE, (curry+1.2)*SQ_SIZE),
+                ((currx+1.2)*SQ_SIZE, (curry+1.8)*SQ_SIZE),
+                ((currx+1)*SQ_SIZE, (curry+2)*SQ_SIZE)))
+
+            a = []
+            for z in hold_display.type:
+                a.append(z*2/5)
+            pygame.draw.polygon(display, a, (((currx+1)*SQ_SIZE, (curry+2)*SQ_SIZE),
+                ((currx+1.2)*SQ_SIZE, (curry+1.8)*SQ_SIZE),
+                ((currx+1.8)*SQ_SIZE, (curry+1.8)*SQ_SIZE),
+                ((currx+2)*SQ_SIZE, (curry+2)*SQ_SIZE)))
+            pygame.draw.polygon(display, a, (((currx+2)*SQ_SIZE, (curry+1)*SQ_SIZE),
+                ((currx+1.8)*SQ_SIZE, (curry+1.2)*SQ_SIZE),
+                ((currx+1.8)*SQ_SIZE, (curry+1.8)*SQ_SIZE),
+                ((currx+2)*SQ_SIZE, (curry+2)*SQ_SIZE)))
+
+            b = []
+            for z in hold_display.type:
+                b.append(z*4/5)
+            pygame.draw.rect(display, b, ((currx+1.2)*SQ_SIZE, (curry+1.2)*SQ_SIZE, SQ_SIZE*3/5, SQ_SIZE*3/5))
 
     display.blit(FONT.render("Next:", True, WHITE), (SQ_SIZE*12, SQ_SIZE*14))
     pygame.draw.rect(display, BG, (SQ_SIZE*12, SQ_SIZE*15, SQ_SIZE*8, SQ_SIZE*4))
     next_display = deepcopy(next)
     if next_display.type == LONG:
-        next_display.x = SQ_SIZE*16
-        next_display.y = SQ_SIZE*16.5
+        next_display.x = 15
+        next_display.y = 15.5
     elif next_display.type == BOX:
-        next_display.x = SQ_SIZE*15
-        next_display.y = SQ_SIZE*16
+        next_display.x = 14
+        next_display.y = 15
     else:
-        next_display.x = SQ_SIZE*15.5
-        next_display.y = SQ_SIZE*17
-    next_display.update_next(display)
+        next_display.x = 14.5
+        next_display.y = 16
+
+    for i in next_display.offsets[0]:
+        currx = next_display.x + i[0]
+        curry = next_display.y + i[1]
+        pygame.draw.polygon(display, next_display.type, (((currx+1)*SQ_SIZE, (curry+1)*SQ_SIZE),
+            ((currx+1.2)*SQ_SIZE, (curry+1.2)*SQ_SIZE),
+            ((currx+1.8)*SQ_SIZE, (curry+1.2)*SQ_SIZE),
+            ((currx+2)*SQ_SIZE, (curry+1)*SQ_SIZE)))
+        pygame.draw.polygon(display, next_display.type, (((currx+1)*SQ_SIZE, (curry+1)*SQ_SIZE),
+            ((currx+1.2)*SQ_SIZE, (curry+1.2)*SQ_SIZE),
+            ((currx+1.2)*SQ_SIZE, (curry+1.8)*SQ_SIZE),
+            ((currx+1)*SQ_SIZE, (curry+2)*SQ_SIZE)))
+
+        a = []
+        for z in next_display.type:
+            a.append(z*2/5)
+        pygame.draw.polygon(display, a, (((currx+1)*SQ_SIZE, (curry+2)*SQ_SIZE),
+            ((currx+1.2)*SQ_SIZE, (curry+1.8)*SQ_SIZE),
+            ((currx+1.8)*SQ_SIZE, (curry+1.8)*SQ_SIZE),
+            ((currx+2)*SQ_SIZE, (curry+2)*SQ_SIZE)))
+        pygame.draw.polygon(display, a, (((currx+2)*SQ_SIZE, (curry+1)*SQ_SIZE),
+            ((currx+1.8)*SQ_SIZE, (curry+1.2)*SQ_SIZE),
+            ((currx+1.8)*SQ_SIZE, (curry+1.8)*SQ_SIZE),
+            ((currx+2)*SQ_SIZE, (curry+2)*SQ_SIZE)))
+
+        b = []
+        for z in next_display.type:
+            b.append(z*4/5)
+        pygame.draw.rect(display, b, ((currx+1.2)*SQ_SIZE, (curry+1.2)*SQ_SIZE, SQ_SIZE*3/5, SQ_SIZE*3/5))
 
 
 def remove_rows(board, score):
