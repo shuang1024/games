@@ -239,7 +239,6 @@ def main():
                     pygame.quit()
                     return
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    print('a')
                     main()
                     return
             display.fill(BG)
