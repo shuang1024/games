@@ -11,7 +11,7 @@ right arrow - move block right
 
 spacebar or down arrow - drop block
 
-a - rotate block to the left
+a or up arrow - rotate block to the left
 
 d - rotate block to the right
 
