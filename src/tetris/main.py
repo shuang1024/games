@@ -215,7 +215,7 @@ def main():
                     hold.update_min_max_x_y()
                     hold.y = hold.min_y
 
-                if event.key == pygame.K_a:
+                if event.key in (pygame.K_a, pygame.K_UP):
                     curr_block.rotate("left", board_copy)
                 if event.key == pygame.K_d:
                     curr_block.rotate("right", board_copy)
