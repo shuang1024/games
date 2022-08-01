@@ -17,14 +17,11 @@ class Block:
         self.y = self.min_y-1
 
     def is_end(self, board):
-        if self.y == B_HEIGHT-self.max_y-1:
-            return True
-        else:
-            for i in self.offsets[self.rot_index]:
-                currx = self.x + i[0]
-                curry = self.y + i[1]
-                if board[curry+1][currx] != BG:
-                    return True
+        for i in self.offsets[self.rot_index]:
+            currx = self.x + i[0]
+            curry = self.y + i[1]
+            if self.y == B_HEIGHT-self.max_y-1 or board[curry+1][currx] != BG:
+                return True
 
     def update_board(self, board):
         if self.x < self.min_x+1:
