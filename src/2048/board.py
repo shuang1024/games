@@ -47,6 +47,8 @@ class Board:
             for i in range(4):
                 for j in range(4):
                     if j < 3 and self.board[i][j] != "0":
+                        if self.board[i][j+1] == self.board[i][j]:
+                            self.board[i][j], self.board[i][j+1] = "0", str(int(self.board[i][j]) * 2)
                         if self.board[i][j+1] == "0":
                             self.board[i][j], self.board[i][j+1] = self.board[i][j+1], self.board[i][j]
 
@@ -54,6 +56,8 @@ class Board:
             for i in range(4):
                 for j in reversed(range(4)):
                     if j > 0 and self.board[i][j] != "0":
+                        if self.board[i][j-1] == self.board[i][j]:
+                            self.board[i][j], self.board[i][j-1] = "0", str(int(self.board[i][j]) * 2)
                         if self.board[i][j-1] == "0":
                             self.board[i][j], self.board[i][j-1] = self.board[i][j-1], self.board[i][j]
 
@@ -61,6 +65,8 @@ class Board:
             for i in reversed(range(4)):
                 for j in range(4):
                     if i > 0 and self.board[i][j] != "0":
+                        if self.board[i-1][j] == self.board[i][j]:
+                            self.board[i][j], self.board[i-1][j] = "0", str(int(self.board[i][j]) * 2)
                         if self.board[i-1][j] == "0":
                             self.board[i][j], self.board[i-1][j] = self.board[i-1][j], self.board[i][j]
 
@@ -68,6 +74,8 @@ class Board:
             for i in range(4):
                 for j in range(4):
                     if i < 3 and self.board[i][j] != "0":
+                        if self.board[i+1][j] == self.board[i][j]:
+                            self.board[i][j], self.board[i+1][j] = "0", str(int(self.board[i][j]) * 2)
                         if self.board[i+1][j] == "0":
                             self.board[i][j], self.board[i+1][j] = self.board[i+1][j], self.board[i][j]
 
@@ -94,8 +102,8 @@ class Board:
                 if bool(int(self.board[i][j])):
                     color = BLOCK_COLORS[int(math.log(int(self.board[i][j])-1, 2))]
                     pygame.draw.rect(display, color, (j*(SQ_SIZE + PADDING) + PADDING, i*(SQ_SIZE + PADDING) + PADDING, SQ_SIZE, SQ_SIZE), 0, 5)
-                    if math.log(int(self.board[i][j])-1, 2) <= 4:
-                        text = NUMBER_FONTS[int(math.log(int(self.board[i][j])-1, 2))].render(self.board[i][j], True, LIGHT_TEXT)
-                    else:
+                    if int(self.board[i][j])-1 <= 4:
                         text = NUMBER_FONTS[int(math.log(int(self.board[i][j])-1, 2))].render(self.board[i][j], True, DARK_TEXT)
+                    else:
+                        text = NUMBER_FONTS[int(math.log(int(self.board[i][j])-1, 2))].render(self.board[i][j], True, LIGHT_TEXT)
                     display.blit(text, (self.text_block_loc(text, i, j)[0], self.text_block_loc(text, i, j)[1], SQ_SIZE, SQ_SIZE))
