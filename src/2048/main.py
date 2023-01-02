@@ -18,7 +18,8 @@ def main():
         clock.tick(FPS)
         pygame.display.update()
         events = pygame.event.get()
-        keys = pygame.key.get_pressed()
+        mouse = pygame.mouse.get_pressed()
+        key = pygame.key.get_pressed()
         for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -32,6 +33,15 @@ def main():
 
         display.fill(WHITE)
         board.draw(display)
+        if board.detect_lose():
+            display.fill((DARK_BROWN))
+            lose1 = LOSE_TEXT.render("You lost!", True, LIGHT_TEXT)
+            lose2 = LOSE_TEXT.render("Click to play again.", True, LIGHT_TEXT)
+            display.blit(lose1, (WIDTH//2 - lose1.get_width()//2, HEIGHT//2 - lose1.get_height()))
+            display.blit(lose2, (WIDTH//2 - lose2.get_width()//2, HEIGHT//2))
+            if mouse[0] or mouse[1] or mouse[2]:
+                main()
+                return
 
 
 main()

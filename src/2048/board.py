@@ -107,3 +107,21 @@ class Board:
                     else:
                         text = NUMBER_FONTS[int(math.log(int(self.board[i][j])-1, 2))].render(self.board[i][j], True, LIGHT_TEXT)
                     display.blit(text, (self.text_block_loc(text, i, j)[0], self.text_block_loc(text, i, j)[1], SQ_SIZE, SQ_SIZE))
+
+    def detect_lose(self):
+        lose = None
+        prev_br = deepcopy(self.board)
+        self.move("r")
+        if self.board == prev_br:
+            self.move("u")
+            if self.board == prev_br:
+                self.move("l")
+                if self.board == prev_br:
+                    self.move("d")
+                    if self.board == prev_br:
+                        lose = True
+        else:
+            lose = False
+
+        self.board = prev_br
+        return lose
