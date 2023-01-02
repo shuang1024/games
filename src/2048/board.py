@@ -47,28 +47,28 @@ class Board:
             for i in range(4):
                 for j in range(4):
                     if j < 3 and self.board[i][j] != "0":
-                        while self.board[i][j+1] == "0":
+                        if self.board[i][j+1] == "0":
                             self.board[i][j], self.board[i][j+1] = self.board[i][j+1], self.board[i][j]
 
         if direction == "l":
             for i in range(4):
                 for j in reversed(range(4)):
                     if j > 0 and self.board[i][j] != "0":
-                        while self.board[i][j-1] == "0":
+                        if self.board[i][j-1] == "0":
                             self.board[i][j], self.board[i][j-1] = self.board[i][j-1], self.board[i][j]
 
         if direction == "u":
             for i in reversed(range(4)):
                 for j in range(4):
                     if i > 0 and self.board[i][j] != "0":
-                        while self.board[i-1][j] == "0":
+                        if self.board[i-1][j] == "0":
                             self.board[i][j], self.board[i-1][j] = self.board[i-1][j], self.board[i][j]
 
         if direction == "d":
             for i in range(4):
                 for j in range(4):
                     if i < 3 and self.board[i][j] != "0":
-                        while self.board[i+1][j] == "0":
+                        if self.board[i+1][j] == "0":
                             self.board[i][j], self.board[i+1][j] = self.board[i+1][j], self.board[i][j]
 
     def move(self, direction):
