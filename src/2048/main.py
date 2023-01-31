@@ -19,17 +19,16 @@ def main():
         pygame.display.update()
         events = pygame.event.get()
         mouse = pygame.mouse.get_pressed()
-        key = pygame.key.get_pressed()
         for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return
             if event.type == pygame.KEYDOWN:
                 match event.key:
-                    case pygame.K_RIGHT: board.move("r")
-                    case pygame.K_LEFT: board.move("l")
-                    case pygame.K_UP: board.move("u")
-                    case pygame.K_DOWN: board.move("d")
+                    case pygame.K_RIGHT: board.move("r", False)
+                    case pygame.K_LEFT: board.move("l", False)
+                    case pygame.K_UP: board.move("u", False)
+                    case pygame.K_DOWN: board.move("d", False)
 
         display.fill(WHITE)
         board.draw(display)

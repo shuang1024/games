@@ -11,6 +11,7 @@ class Board:
     def __init__(self):
         self.board = []
         self.reset_board()
+        self.score = 0
 
         x1 = random.randint(0, 3)
         y1 = random.randint(0, 3)
@@ -42,13 +43,15 @@ class Board:
         y = i*(SQ_SIZE + PADDING) + PADDING + SQ_SIZE//2 - text.get_height()//2
         return x, y
 
-    def move_step(self, direction):
+    def move_step(self, direction, lose):
         if direction == "r":
             for i in range(4):
                 for j in range(4):
                     if j < 3 and self.board[i][j] != "0":
                         if self.board[i][j+1] == self.board[i][j]:
                             self.board[i][j], self.board[i][j+1] = "0", str(int(self.board[i][j]) * 2)
+                            if not lose:
+                                self.score += int(self.board[i][j+1])
                         if self.board[i][j+1] == "0":
                             self.board[i][j], self.board[i][j+1] = self.board[i][j+1], self.board[i][j]
 
@@ -58,6 +61,8 @@ class Board:
                     if j > 0 and self.board[i][j] != "0":
                         if self.board[i][j-1] == self.board[i][j]:
                             self.board[i][j], self.board[i][j-1] = "0", str(int(self.board[i][j]) * 2)
+                            if not lose:
+                                self.score += int(self.board[i][j-1])
                         if self.board[i][j-1] == "0":
                             self.board[i][j], self.board[i][j-1] = self.board[i][j-1], self.board[i][j]
 
@@ -67,6 +72,8 @@ class Board:
                     if i > 0 and self.board[i][j] != "0":
                         if self.board[i-1][j] == self.board[i][j]:
                             self.board[i][j], self.board[i-1][j] = "0", str(int(self.board[i][j]) * 2)
+                            if not lose:
+                                self.score += int(self.board[i-1][j])
                         if self.board[i-1][j] == "0":
                             self.board[i][j], self.board[i-1][j] = self.board[i-1][j], self.board[i][j]
 
@@ -76,14 +83,16 @@ class Board:
                     if i < 3 and self.board[i][j] != "0":
                         if self.board[i+1][j] == self.board[i][j]:
                             self.board[i][j], self.board[i+1][j] = "0", str(int(self.board[i][j]) * 2)
+                            if not lose:
+                                self.score += int(self.board[i+1][j])
                         if self.board[i+1][j] == "0":
                             self.board[i][j], self.board[i+1][j] = self.board[i+1][j], self.board[i][j]
 
-    def move(self, direction):
+    def move(self, direction, lose):
         revs = 0
         while True:
             prev_brd = deepcopy(self.board)
-            self.move_step(direction)
+            self.move_step(direction, lose)
             if self.board == prev_brd:
                 break
             revs += 1
@@ -108,16 +117,19 @@ class Board:
                         text = NUMBER_FONTS[int(math.log(int(self.board[i][j])-1, 2))].render(self.board[i][j], True, LIGHT_TEXT)
                     display.blit(text, (self.text_block_loc(text, i, j)[0], self.text_block_loc(text, i, j)[1], SQ_SIZE, SQ_SIZE))
 
+        score = SCORE_TEXT.render(f"Score: {self.score}", True, DARK_TEXT)
+        display.blit(score, (10, WIDTH+10))
+
     def detect_lose(self):
         lose = None
         prev_br = deepcopy(self.board)
-        self.move("r")
+        self.move("r", True)
         if self.board == prev_br:
-            self.move("u")
+            self.move("u", True)
             if self.board == prev_br:
-                self.move("l")
+                self.move("l", True)
                 if self.board == prev_br:
-                    self.move("d")
+                    self.move("d", True)
                     if self.board == prev_br:
                         lose = True
         else:

@@ -41,3 +41,4 @@ NUMBER_FONTS = [
 LIGHT_TEXT = (255, 255, 255)
 DARK_TEXT = (105, 92, 87)
 LOSE_TEXT = pygame.font.SysFont("helvetica", 40, True)
+SCORE_TEXT = pygame.font.SysFont("helvetica", 30, True)
