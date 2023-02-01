@@ -18,10 +18,11 @@ def main():
         clock.tick(FPS)
         pygame.display.update()
         events = pygame.event.get()
-        mouse = pygame.mouse.get_pressed()
         for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()
+                with open("highscore.txt", "w") as fp:
+                    fp.write(str(board.highscore))
                 return
             if event.type == pygame.KEYDOWN:
                 match event.key:
@@ -29,18 +30,29 @@ def main():
                     case pygame.K_LEFT: board.move("l", False)
                     case pygame.K_UP: board.move("u", False)
                     case pygame.K_DOWN: board.move("d", False)
+                    case pygame.K_r: main(); return
 
         display.fill(WHITE)
         board.draw(display)
-        if board.detect_lose():
-            display.fill((DARK_BROWN))
-            lose1 = LOSE_TEXT.render("You lost!", True, LIGHT_TEXT)
-            lose2 = LOSE_TEXT.render("Click to play again.", True, LIGHT_TEXT)
+
+        while board.detect_lose():
+            events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    main()
+                    return
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    with open("highscore.txt", "w") as fp:
+                        fp.write(str(board.highscore))
+                    return
+
+            lose1 = LOSE_TEXT.render("You lost!", True, (0, 0, 0))
+            lose2 = LOSE_TEXT.render("Click to play again.", True, (0, 0, 0))
             display.blit(lose1, (WIDTH//2 - lose1.get_width()//2, HEIGHT//2 - lose1.get_height()))
             display.blit(lose2, (WIDTH//2 - lose2.get_width()//2, HEIGHT//2))
-            if mouse[0] or mouse[1] or mouse[2]:
-                main()
-                return
+            pygame.display.update()
+
 
 
 main()
