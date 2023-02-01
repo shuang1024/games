@@ -13,6 +13,14 @@ class Board:
         self.reset_board()
         self.score = 0
 
+        try:
+            with open("highscore.txt", "r") as fp:
+                self.highscore = int(fp.read())
+        except:
+            with open("highscore.txt", "w") as fp:
+                fp.write("0")
+                self.highscore = 0
+
         x1 = random.randint(0, 3)
         y1 = random.randint(0, 3)
         x2 = random.randint(0, 3)
@@ -100,6 +108,9 @@ class Board:
         if revs:
             self.spawn_block()
 
+        if self.score > self.highscore:
+            self.highscore = self.score
+
     def draw(self, display):
         pygame.draw.rect(display, DARK_BROWN, (0, 0, WIDTH, HEIGHT-100))
         for r in range(4):
@@ -119,6 +130,8 @@ class Board:
 
         score = SCORE_TEXT.render(f"Score: {self.score}", True, DARK_TEXT)
         display.blit(score, (10, WIDTH+10))
+        highscore = SCORE_TEXT.render(f"Highscore: {self.highscore}", True, DARK_TEXT)
+        display.blit(highscore, (10, HEIGHT - highscore.get_height() - 10))
 
     def detect_lose(self):
         lose = None
