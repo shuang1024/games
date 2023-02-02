@@ -21,8 +21,6 @@ def main():
         for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()
-                with open("highscore.txt", "w") as fp:
-                    fp.write(str(board.highscore))
                 return
             if event.type == pygame.KEYDOWN:
                 match event.key:
@@ -43,8 +41,6 @@ def main():
                     return
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                    with open("highscore.txt", "w") as fp:
-                        fp.write(str(board.highscore))
                     return
 
             lose1 = LOSE_TEXT.render("You lost!", True, (0, 0, 0))
@@ -52,7 +48,9 @@ def main():
             display.blit(lose1, (WIDTH//2 - lose1.get_width()//2, HEIGHT//2 - lose1.get_height()))
             display.blit(lose2, (WIDTH//2 - lose2.get_width()//2, HEIGHT//2))
             pygame.display.update()
-
+            
+            with open("highscore.txt", "w") as fp:
+                fp.write(str(board.highscore))
 
 
 main()
