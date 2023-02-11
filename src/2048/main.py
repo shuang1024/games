@@ -23,12 +23,14 @@ def main():
                 pygame.quit()
                 return
             if event.type == pygame.KEYDOWN:
-                match event.key:
-                    case pygame.K_RIGHT: board.move("r", False)
-                    case pygame.K_LEFT: board.move("l", False)
-                    case pygame.K_UP: board.move("u", False)
-                    case pygame.K_DOWN: board.move("d", False)
-                    case pygame.K_r: main(); return
+                if event.key == pygame.K_RIGHT:
+                    board.move("r", False)
+                if event.key == pygame.K_LEFT:
+                    board.move("l", False)
+                if event.key == pygame.K_UP:
+                    board.move("u", False)
+                if event.key == pygame.K_DOWN:
+                    board.move("d", False)
 
         display.fill(WHITE)
         board.draw(display)
