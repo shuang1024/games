@@ -14,6 +14,7 @@ class Snake:
         self.y = 7
         self.positions = [(self.x, self.y)]
         self.dir = (0, 0)
+        self.score = 0
 
     def draw(self, display):
         self.x += self.dir[0]
@@ -43,4 +44,9 @@ class Snake:
             self.positions.insert(0, new_head)
             if len(self.positions) > self.length:
                 self.positions.pop()
+
+    def eat(self, apple):
+        if (apple.x, apple.y) == self.positions[0]:
+            self.score += 1
+            apple.random_pos()
 

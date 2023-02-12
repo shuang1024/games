@@ -4,6 +4,7 @@ import pygame
 
 from constants import *
 from snake import Snake
+from apple import Apple
 
 display = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Snake")
@@ -14,6 +15,7 @@ def main():
 
     snake = Snake()
     snake.draw(display)
+    apple = Apple(snake)
     while True:
         clock.tick(FPS)
         pygame.display.update()
@@ -34,6 +36,7 @@ def main():
 
         snake.draw(display)
         snake.move(keys)
+        apple.draw(display)
 
 
 main()
