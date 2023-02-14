@@ -12,10 +12,10 @@ class Apple:
         self.color = APPLE
 
     def random_pos(self, snake):
-        self.x, self.y = random.randint(0, COLS), random.randint(0, ROWS)
+        self.x, self.y = random.randint(0, COLS-1), random.randint(0, ROWS-1)
 
         while (self.x, self.y) in snake.positions:
-            self.x, self.y = random.randint(0, COLS), random.randint(0, ROWS)
+            self.x, self.y = random.randint(0, COLS-1), random.randint(0, ROWS-1)
 
     def draw(self, display):
         pygame.draw.circle(display, self.color, (MARGIN + self.x*SQ_SIZE + SQ_SIZE//2, MARGIN + self.y*SQ_SIZE + SQ_SIZE//2), SQ_SIZE//2)

@@ -16,6 +16,10 @@ def main():
     snake = Snake()
     snake.draw(display)
     apple = Apple(snake)
+    
+    score = 0
+
+    last_draw = time.time()
     while True:
         clock.tick(FPS)
         pygame.display.update()
@@ -34,9 +38,15 @@ def main():
                 else:
                     pygame.draw.rect(display, DARK_GREEN, (MARGIN + i*SQ_SIZE, MARGIN + j*SQ_SIZE, SQ_SIZE, SQ_SIZE))
 
+        if time.time() - last_draw > 1 / SNAKE_FPS:
+            snake.move()
+            last_draw = time.time()
         snake.draw(display)
-        snake.move(keys)
+        snake.keys(keys)
         apple.draw(display)
 
+        if (apple.x, apple.y) == snake.positions[0]:
+            score += 1
+            apple.random_pos(snake)
 
 main()
