@@ -33,12 +33,9 @@ class Snake:
         head = self.positions[0]
         x, y = self.dir
         new_head = (((head[0] + x*SQ_SIZE) % COLS), ((head[1] + y*SQ_SIZE) % ROWS))
-        if len(self.positions) > 2 and new_head in self.positions[2:]:
-            self.reset()
-        else:
-            self.positions.insert(0, new_head)
-            if len(self.positions) > self.length:
-                self.positions.pop()
+        self.positions.insert(0, new_head)
+        if len(self.positions) > self.length:
+            self.positions.pop()
 
         self.x += self.dir[0]
         self.y += self.dir[1]
