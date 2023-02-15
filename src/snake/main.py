@@ -43,10 +43,12 @@ def main():
             last_draw = time.time()
         snake.draw(display)
         snake.keys(keys)
+        snake.check_lose()
         apple.draw(display)
 
         if (apple.x, apple.y) == snake.positions[0]:
             score += 1
+            snake.length += 1
             apple.random_pos(snake)
 
 main()

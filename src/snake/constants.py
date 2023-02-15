@@ -16,6 +16,7 @@ DARK_GREEN = (162, 209, 73)
 LIGHT_GREEN = (170, 215, 81)
 
 SNAKE = (71, 117, 235)
+SNAKE_HEAD = (100, 150, 255)
 APPLE = (231, 71, 29)
 
 SCORE_FONT = pygame.font.SysFont("comicsans", 50)

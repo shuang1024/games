@@ -7,6 +7,7 @@ class Snake:
     def __init__(self):
         self.reset()
         self.color = SNAKE
+        self.head_color = SNAKE_HEAD
 
     def reset(self):
         self.length = 3
@@ -18,7 +19,15 @@ class Snake:
 
     def draw(self, display):
         for i in self.positions:
-            pygame.draw.rect(display, self.color, (MARGIN + i[0]*SQ_SIZE, MARGIN + i[1]*SQ_SIZE, SQ_SIZE, SQ_SIZE))
+            if self.positions.index(i) == 0:
+                pygame.draw.rect(display, self.head_color, (MARGIN + i[0]*SQ_SIZE, MARGIN + i[1]*SQ_SIZE, SQ_SIZE, SQ_SIZE))
+            else:
+                pygame.draw.rect(display, self.color, (MARGIN + i[0]*SQ_SIZE, MARGIN + i[1]*SQ_SIZE, SQ_SIZE, SQ_SIZE))
+
+    def check_lose(self):
+        if self.positions[0][0] < 0 or self.positions[0][0] > COLS-1 or self.positions[0][1] < 0 or self.positions[0][1] > ROWS-1 \
+            or self.positions[0] in self.positions[1:]:
+            self.reset()
 
     def move(self):
         head = self.positions[0]
@@ -33,16 +42,14 @@ class Snake:
 
         self.x += self.dir[0]
         self.y += self.dir[1]
-        if self.x < 0 or self.x > COLS-1 or self.y < 0 or self.y > ROWS-1:
-            self.reset()
         self.positions[0] = (self.x, self.y)
 
     def keys(self, keys):
-        if keys[pygame.K_LEFT] and self.dir != (1, 0):
+        if keys[pygame.K_LEFT] and self.dir[0] == 0:
             self.dir = (-1, 0)
-        if keys[pygame.K_RIGHT] and self.dir != (-1, 0):
+        if keys[pygame.K_RIGHT] and self.dir[0] == 0:
             self.dir = (1, 0)
-        if keys[pygame.K_UP] and self.dir != (0, 1):
+        if keys[pygame.K_UP] and self.dir[1] == 0:
             self.dir = (0, -1)
-        if keys[pygame.K_DOWN] and self.dir != (0, -1):
+        if keys[pygame.K_DOWN] and self.dir[1] == 0:
             self.dir = (0, 1)
