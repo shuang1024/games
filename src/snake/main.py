@@ -16,8 +16,6 @@ def main():
     snake = Snake()
     snake.draw(display)
     apple = Apple(snake)
-    
-    score = 0
 
     last_draw = time.time()
     while True:
@@ -28,6 +26,8 @@ def main():
         for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()
+                with open("highscore.txt", "w") as fp:
+                    fp.write(str(snake.highscore))
                 return
 
         display.fill(BORDER)
@@ -39,16 +39,19 @@ def main():
                     pygame.draw.rect(display, DARK_GREEN, (MARGIN + i*SQ_SIZE, MARGIN + j*SQ_SIZE, SQ_SIZE, SQ_SIZE))
 
         if time.time() - last_draw > 1 / SNAKE_FPS:
-            snake.move()
+            snake.update(apple)
             last_draw = time.time()
         snake.draw(display)
         snake.keys(keys)
-        snake.check_lose()
+        if snake.check_lose():
+            with open("highscore.txt", "w") as fp:
+                fp.write(str(snake.highscore))
+            snake.reset()
         apple.draw(display)
 
-        if (apple.x, apple.y) == snake.positions[0]:
-            score += 1
-            snake.length += 1
-            apple.random_pos(snake)
+        score_text = SCORE_FONT.render(f"Score: {snake.score}", True, BLACK)
+        display.blit(score_text, (10, WIDTH - MARGIN + 10))
+        highscore_text = SCORE_FONT.render(f"Highscore: {snake.highscore}", True, BLACK)
+        display.blit(highscore_text, (10, WIDTH - MARGIN + 10 + score_text.get_height()))
 
 main()

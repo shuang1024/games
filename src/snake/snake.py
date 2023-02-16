@@ -16,6 +16,13 @@ class Snake:
         self.positions = [(self.x, self.y)]
         self.dir = (0, 0)
         self.score = 0
+        try:
+            with open("highscore.txt", "r") as fp:
+                self.highscore = int(fp.read())
+        except:
+            with open("highscore.txt", "w") as fp:
+                fp.write("0")
+                self.highscore = 0
 
     def draw(self, display):
         for i in self.positions:
@@ -27,9 +34,9 @@ class Snake:
     def check_lose(self):
         if self.positions[0][0] < 0 or self.positions[0][0] > COLS-1 or self.positions[0][1] < 0 or self.positions[0][1] > ROWS-1 \
             or self.positions[0] in self.positions[1:]:
-            self.reset()
+            return True, self.highscore
 
-    def move(self):
+    def update(self, apple):
         head = self.positions[0]
         x, y = self.dir
         new_head = (((head[0] + x*SQ_SIZE) % COLS), ((head[1] + y*SQ_SIZE) % ROWS))
@@ -40,6 +47,14 @@ class Snake:
         self.x += self.dir[0]
         self.y += self.dir[1]
         self.positions[0] = (self.x, self.y)
+
+        if (apple.x, apple.y) == self.positions[0]:
+            self.score += 1
+            self.length += 1
+            apple.random_pos(self)
+
+        if self.score > self.highscore:
+            self.highscore = self.score
 
     def keys(self, keys):
         if keys[pygame.K_LEFT] and self.dir[0] == 0:
