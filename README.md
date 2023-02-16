@@ -47,3 +47,20 @@ up arrow - shift tiles up
 down arrow - shift tiles down
 
 r - new game
+
+## Snake
+
+### Goal
+The gole of snake is to eat as many apples as possible without dying.
+
+You die when you either crash into the border or into yourself.
+
+### Rules
+
+left arrow - move left
+
+right arrow - move right
+
+up arrow - move up
+
+down arrow - move down
