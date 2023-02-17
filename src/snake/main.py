@@ -18,6 +18,8 @@ def main():
     apple = Apple(snake)
 
     last_draw = time.time()
+    with open("highscore.txt", "r") as fp:
+        snake.highsore = int(fp.read())
     while True:
         clock.tick(FPS)
         pygame.display.update()

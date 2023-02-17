@@ -34,7 +34,7 @@ class Snake:
     def check_lose(self):
         if self.positions[0][0] < 0 or self.positions[0][0] > COLS-1 or self.positions[0][1] < 0 or self.positions[0][1] > ROWS-1 \
             or self.positions[0] in self.positions[1:]:
-            return True, self.highscore
+            return True
 
     def update(self, apple):
         head = self.positions[0]
