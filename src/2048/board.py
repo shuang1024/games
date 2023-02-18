@@ -21,29 +21,29 @@ class Board:
                 fp.write("0")
                 self.highscore = 0
 
-        x1 = random.randint(0, 3)
-        y1 = random.randint(0, 3)
-        x2 = random.randint(0, 3)
-        y2 = random.randint(0, 3)
+        x1 = random.randint(0, COLS-1)
+        y1 = random.randint(0, ROWS-1)
+        x2 = random.randint(0, COLS-1)
+        y2 = random.randint(0, ROWS-1)
         while (x1, y1) == (x2, y2):
-            x2 = random.randint(0, 3)
-            y2 = random.randint(0, 3)
+            x2 = random.randint(0, COLS-1)
+            y2 = random.randint(0, ROWS-1)
         self.board[y1][x1] = random.choice(("2", "4"))
         self.board[y2][x2] = "2"
 
     def reset_board(self):
         self.board = []
-        for i in range(4):
+        for i in range(COLS):
             self.board.append([])
-            for j in range(4):
+            for j in range(ROWS):
                 self.board[i].append("0")
 
     def spawn_block(self):
-        x = random.randint(0, 3)
-        y = random.randint(0, 3)
+        x = random.randint(0, COLS-1)
+        y = random.randint(0, ROWS-1)
         while self.board[y][x] != "0":
-            x = random.randint(0, 3)
-            y = random.randint(0, 3)
+            x = random.randint(0, COLS-1)
+            y = random.randint(0, ROWS-1)
         self.board[y][x] = "2"
 
     def text_block_loc(self, text, i, j):
@@ -53,9 +53,9 @@ class Board:
 
     def move_step(self, direction, lose):
         if direction == "r":
-            for i in range(4):
-                for j in range(4):
-                    if j < 3 and self.board[i][j] != "0":
+            for i in range(COLS):
+                for j in range(ROWS):
+                    if j < ROWS-1 and self.board[i][j] != "0":
                         if self.board[i][j+1] == self.board[i][j]:
                             self.board[i][j], self.board[i][j+1] = "0", str(int(self.board[i][j]) * 2)
                             if not lose:
@@ -64,8 +64,8 @@ class Board:
                             self.board[i][j], self.board[i][j+1] = self.board[i][j+1], self.board[i][j]
 
         if direction == "l":
-            for i in range(4):
-                for j in reversed(range(4)):
+            for i in range(COLS):
+                for j in reversed(range(ROWS)):
                     if j > 0 and self.board[i][j] != "0":
                         if self.board[i][j-1] == self.board[i][j]:
                             self.board[i][j], self.board[i][j-1] = "0", str(int(self.board[i][j]) * 2)
@@ -75,8 +75,8 @@ class Board:
                             self.board[i][j], self.board[i][j-1] = self.board[i][j-1], self.board[i][j]
 
         if direction == "u":
-            for i in reversed(range(4)):
-                for j in range(4):
+            for i in reversed(range(COLS)):
+                for j in range(ROWS):
                     if i > 0 and self.board[i][j] != "0":
                         if self.board[i-1][j] == self.board[i][j]:
                             self.board[i][j], self.board[i-1][j] = "0", str(int(self.board[i][j]) * 2)
@@ -86,9 +86,9 @@ class Board:
                             self.board[i][j], self.board[i-1][j] = self.board[i-1][j], self.board[i][j]
 
         if direction == "d":
-            for i in range(4):
-                for j in range(4):
-                    if i < 3 and self.board[i][j] != "0":
+            for i in range(COLS):
+                for j in range(ROWS):
+                    if i < COLS-1 and self.board[i][j] != "0":
                         if self.board[i+1][j] == self.board[i][j]:
                             self.board[i][j], self.board[i+1][j] = "0", str(int(self.board[i][j]) * 2)
                             if not lose:
@@ -113,12 +113,12 @@ class Board:
 
     def draw(self, display):
         pygame.draw.rect(display, DARK_BROWN, (0, 0, WIDTH, HEIGHT-100))
-        for r in range(4):
-            for c in range(4):
+        for r in range(ROWS):
+            for c in range(COLS):
                 pygame.draw.rect(display, LIGHT_BROWN, (c*(SQ_SIZE + PADDING) + PADDING, r*(SQ_SIZE + PADDING) + PADDING, SQ_SIZE, SQ_SIZE), 0, 5)
 
-        for i in range(4):
-            for j in range(4):
+        for i in range(ROWS):
+            for j in range(COLS):
                 if bool(int(self.board[i][j])):
                     color = BLOCK_COLORS[int(math.log(int(self.board[i][j])-1, 2))]
                     pygame.draw.rect(display, color, (j*(SQ_SIZE + PADDING) + PADDING, i*(SQ_SIZE + PADDING) + PADDING, SQ_SIZE, SQ_SIZE), 0, 5)
