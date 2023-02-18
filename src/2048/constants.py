@@ -1,7 +1,7 @@
 import pygame
 pygame.init()
 
-ROWS, COLS = 4, 4
+ROWS, COLS = 6, 3
 PADDING = 10
 SQ_SIZE = 100
 WIDTH, HEIGHT = SQ_SIZE*COLS + PADDING*(COLS+1), SQ_SIZE*ROWS + PADDING*(ROWS+1) + 100

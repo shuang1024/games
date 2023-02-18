@@ -33,9 +33,9 @@ class Board:
 
     def reset_board(self):
         self.board = []
-        for i in range(COLS):
+        for i in range(ROWS):
             self.board.append([])
-            for j in range(ROWS):
+            for j in range(COLS):
                 self.board[i].append("0")
 
     def spawn_block(self):
@@ -53,9 +53,9 @@ class Board:
 
     def move_step(self, direction, lose):
         if direction == "r":
-            for i in range(COLS):
-                for j in range(ROWS):
-                    if j < ROWS-1 and self.board[i][j] != "0":
+            for i in range(ROWS):
+                for j in range(COLS):
+                    if j < COLS-1 and self.board[i][j] != "0":
                         if self.board[i][j+1] == self.board[i][j]:
                             self.board[i][j], self.board[i][j+1] = "0", str(int(self.board[i][j]) * 2)
                             if not lose:
@@ -64,8 +64,8 @@ class Board:
                             self.board[i][j], self.board[i][j+1] = self.board[i][j+1], self.board[i][j]
 
         if direction == "l":
-            for i in range(COLS):
-                for j in reversed(range(ROWS)):
+            for i in range(ROWS):
+                for j in reversed(range(COLS)):
                     if j > 0 and self.board[i][j] != "0":
                         if self.board[i][j-1] == self.board[i][j]:
                             self.board[i][j], self.board[i][j-1] = "0", str(int(self.board[i][j]) * 2)
@@ -75,8 +75,8 @@ class Board:
                             self.board[i][j], self.board[i][j-1] = self.board[i][j-1], self.board[i][j]
 
         if direction == "u":
-            for i in reversed(range(COLS)):
-                for j in range(ROWS):
+            for i in reversed(range(ROWS)):
+                for j in range(COLS):
                     if i > 0 and self.board[i][j] != "0":
                         if self.board[i-1][j] == self.board[i][j]:
                             self.board[i][j], self.board[i-1][j] = "0", str(int(self.board[i][j]) * 2)
@@ -86,9 +86,9 @@ class Board:
                             self.board[i][j], self.board[i-1][j] = self.board[i-1][j], self.board[i][j]
 
         if direction == "d":
-            for i in range(COLS):
-                for j in range(ROWS):
-                    if i < COLS-1 and self.board[i][j] != "0":
+            for i in range(ROWS):
+                for j in range(COLS):
+                    if i < ROWS-1 and self.board[i][j] != "0":
                         if self.board[i+1][j] == self.board[i][j]:
                             self.board[i][j], self.board[i+1][j] = "0", str(int(self.board[i][j]) * 2)
                             if not lose:
@@ -129,7 +129,7 @@ class Board:
                     display.blit(text, (self.text_block_loc(text, i, j)[0], self.text_block_loc(text, i, j)[1], SQ_SIZE, SQ_SIZE))
 
         score = SCORE_TEXT.render(f"Score: {self.score}", True, DARK_TEXT)
-        display.blit(score, (10, WIDTH+10))
+        display.blit(score, (10, HEIGHT-100+10))
         highscore = SCORE_TEXT.render(f"Highscore: {self.highscore}", True, DARK_TEXT)
         display.blit(highscore, (10, HEIGHT - highscore.get_height() - 10))
 
