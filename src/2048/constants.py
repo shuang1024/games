@@ -25,17 +25,17 @@ BLOCK_COLORS = [
 ]
 
 NUMBER_FONTS = [
-    pygame.font.SysFont("helvetica", 55, True),
-    pygame.font.SysFont("helvetica", 55, True),
-    pygame.font.SysFont("helvetica", 55, True),
-    pygame.font.SysFont("helvetica", 50, True),
-    pygame.font.SysFont("helvetica", 50, True),
-    pygame.font.SysFont("helvetica", 50, True),
-    pygame.font.SysFont("helvetica", 45, True),
-    pygame.font.SysFont("helvetica", 45, True),
-    pygame.font.SysFont("helvetica", 45, True),
-    pygame.font.SysFont("helvetica", 40, True),
-    pygame.font.SysFont("helvetica", 40, True),
+    pygame.font.SysFont("helvetica", 55, True), #2
+    pygame.font.SysFont("helvetica", 55, True), #4
+    pygame.font.SysFont("helvetica", 55, True), #8
+    pygame.font.SysFont("helvetica", 50, True), #16
+    pygame.font.SysFont("helvetica", 50, True), #32
+    pygame.font.SysFont("helvetica", 50, True), #64
+    pygame.font.SysFont("helvetica", 45, True), #128
+    pygame.font.SysFont("helvetica", 45, True), #256
+    pygame.font.SysFont("helvetica", 45, True), #512
+    pygame.font.SysFont("helvetica", 40, True), #1024
+    pygame.font.SysFont("helvetica", 40, True), #2048
 ]
 
 LIGHT_TEXT = (255, 255, 255)
