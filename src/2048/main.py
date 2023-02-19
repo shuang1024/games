@@ -6,6 +6,7 @@ from board import Board
 
 display = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("2048")
+pygame.display.set_icon(pygame.image.load("icon.png"))
 
 
 def main():
