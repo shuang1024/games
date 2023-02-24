@@ -1,3 +1,5 @@
+import math, time
+
 import pygame
 
 from constants import *
@@ -13,6 +15,8 @@ class Player:
         self.speed = 5
         self.x_speed = 0
         self.y_speed = 0
+        self.bullets = []
+        self.last_shot = time.time()
 
     def draw(self, display):
         pygame.draw.circle(display, self.color, (self.x, self.y), self.radius)
@@ -35,3 +39,29 @@ class Player:
     
         self.x += self.x_speed
         self.y += self.y_speed
+
+    def shoot(self, mouse, display):
+        if mouse.get_pressed()[0] and time.time() - self.last_shot > 0.1:
+            self.last_shot = time.time()
+            mouse_pos = mouse.get_pos()
+            dir = (mouse_pos[0]-self.x, mouse_pos[1]-self.y)
+            self.bullets.append(Bullet(self.x, self.y, dir))
+
+        for i in self.bullets:
+            i.update(display)
+
+
+class Bullet:
+    def __init__(self, x, y, dir):
+        self.dir = math.degrees(math.atan2(dir[0], dir[1]))
+        self.image = pygame.transform.rotate(BULLET, self.dir + 90)
+        self.x = x - self.image.get_width()//2
+        self.y = y - self.image.get_height()//2
+        self.speed = 10
+
+    def update(self, display):
+        dir_x = math.cos(math.radians(self.dir - 90)) * self.speed
+        dir_y = math.sin(math.radians(self.dir + 90)) * self.speed
+        self.x += dir_x
+        self.y += dir_y
+        display.blit(self.image, (self.x, self.y))
