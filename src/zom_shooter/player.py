@@ -11,22 +11,21 @@ class Player:
         self.x = WIDTH // 2
         self.y = HEIGHT // 2
         self.color = PLAYER
-        self.drag = 0.7
+        self.drag = 0.9
         self.speed = 5
         self.x_speed = 0
         self.y_speed = 0
         self.bullets = []
         self.last_shot = time.time()
+        self.shoot_delay = 0.1
 
     def draw(self, display):
+        pygame.draw.circle(display, BLACK, (self.x, self.y), self.radius+5)
         pygame.draw.circle(display, self.color, (self.x, self.y), self.radius)
 
     def move(self, keys):
         self.x_speed *= self.drag
         self.y_speed *= self.drag
-        # for i in map:
-        #     if pygame.Rect(self.x-self.radius, self.y-self.radius, self.radius*2, self.radius*2).colliderect(*i):
-        #         return
 
         if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and self.x > self.radius:
             self.x_speed = -self.speed
@@ -41,7 +40,7 @@ class Player:
         self.y += self.y_speed
 
     def shoot(self, mouse, display):
-        if mouse.get_pressed()[0] and time.time() - self.last_shot > 0.1:
+        if mouse.get_pressed()[0] and time.time() - self.last_shot > self.shoot_delay:
             self.last_shot = time.time()
             mouse_pos = mouse.get_pos()
             dir = (mouse_pos[0]-self.x, mouse_pos[1]-self.y)
