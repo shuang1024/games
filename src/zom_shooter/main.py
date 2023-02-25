@@ -43,6 +43,7 @@ def main():
             z.draw(display)
             z.move(player)
             if z.health == 0:
+                player.score += z.damage
                 zombies.remove(z)
 
         if time.time() - last_zombie >= 1.5 and len(zombies) <= max_zombies:
@@ -52,8 +53,6 @@ def main():
             if time.time() - last_boss >= 5 and len(zombies) <= max_zombies:
                 last_boss = time.time()
                 zombies.append(Zombie_Boss(*random.choice(pos)))
-
-        print(player.health)
 
 
 main()

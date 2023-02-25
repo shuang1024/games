@@ -20,6 +20,7 @@ class Player:
         self.shoot_delay = 0.1
         self.rect = pygame.Rect(self.x-self.radius, self.y-self.radius, self.radius*2, self.radius*2)
         self.health = 100
+        self.score = 0
 
     def draw(self, display):
         pygame.draw.circle(display, BLACK, (self.x, self.y), self.radius+1)
@@ -62,16 +63,16 @@ class Player:
 
 class Bullet:
     def __init__(self, x, y, dir):
-        self.dir = math.degrees(math.atan2(dir[0], dir[1]))
-        self.image = pygame.transform.rotate(BULLET, self.dir + 90)
+        self.dir = math.atan2(dir[1], dir[0])
+        self.image = pygame.transform.rotate(BULLET, 180 - math.degrees(self.dir))
         self.x = x - self.image.get_width()//2
         self.y = y - self.image.get_height()//2
         self.speed = 10
         self.gone = 0
 
     def update(self, display):
-        dir_x = math.cos(math.radians(self.dir - 90)) * self.speed
-        dir_y = math.sin(math.radians(self.dir + 90)) * self.speed
+        dir_x = math.cos(self.dir) * self.speed
+        dir_y = math.sin(self.dir) * self.speed
         self.x += dir_x
         self.y += dir_y
         display.blit(self.image, (self.x, self.y))
