@@ -7,7 +7,7 @@ from constants import *
 
 class Player:
     def __init__(self):
-        self.radius = 30
+        self.radius = 15
         self.x = WIDTH // 2
         self.y = HEIGHT // 2
         self.color = PLAYER
@@ -20,7 +20,7 @@ class Player:
         self.shoot_delay = 0.1
 
     def draw(self, display):
-        pygame.draw.circle(display, BLACK, (self.x, self.y), self.radius+5)
+        pygame.draw.circle(display, BLACK, (self.x, self.y), self.radius+1)
         pygame.draw.circle(display, self.color, (self.x, self.y), self.radius)
 
     def move(self, keys):
@@ -47,7 +47,10 @@ class Player:
             self.bullets.append(Bullet(self.x, self.y, dir))
 
         for i in self.bullets:
-            i.update(display)
+            if i.gone:
+                self.bullets.remove(i)
+            else:
+                i.update(display)
 
 
 class Bullet:
@@ -57,6 +60,7 @@ class Bullet:
         self.x = x - self.image.get_width()//2
         self.y = y - self.image.get_height()//2
         self.speed = 10
+        self.gone = 0
 
     def update(self, display):
         dir_x = math.cos(math.radians(self.dir - 90)) * self.speed
