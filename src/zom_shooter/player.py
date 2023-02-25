@@ -57,7 +57,7 @@ class Player:
 
     def check_damage(self, zombie):
         if self.rect.colliderect(zombie.rect):
-            self.health -= .5
+            self.health -= zombie.damage
 
 
 class Bullet:

@@ -1,4 +1,4 @@
-import math, random
+import math, random, time
 
 import pygame
 
@@ -10,11 +10,14 @@ class Zombie:
         self.x = x
         self.y = y
         self.radius = 15
-        self.color = ZOMBIE
+        self.normal_color = ZOMBIE
         self.damage_color = WHITE
+        self.color = self.normal_color
         self.speed = random.randint(3, 5)
         self.health = 10
         self.rect = pygame.Rect(self.x-self.radius, self.y-self.radius, self.radius*2, self.radius*2)
+        self.damage = 0.5
+        self.last_damage = time.time()
 
     def draw(self, display):
         pygame.draw.circle(display, BLACK, (self.x, self.y), self.radius+1)
@@ -31,4 +34,9 @@ class Zombie:
         for i in player.bullets:
             if i.image.get_rect(topleft=(i.x, i.y)).colliderect(self.rect):
                 self.health -= 1
+                self.color = self.damage_color
                 i.gone = True
+                self.last_damage = time.time()
+            else:
+                if time.time() - self.last_damage > 0.1:
+                    self.color = self.normal_color
