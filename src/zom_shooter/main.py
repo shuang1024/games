@@ -36,6 +36,7 @@ def main():
         player.move(keys)
         player.shoot(mouse, display)
         for z in zombies:
+            player.check_damage(z)
             z.draw(display)
             z.move(player)
             if z.health == 0:
@@ -44,6 +45,8 @@ def main():
         if time.time() - last_zombie >= 1.5 and len(zombies) <= max_zombies:
             last_zombie = time.time()
             zombies.append(Zombie(*random.choice(pos)))
+
+        print(player.health)
 
 
 main()

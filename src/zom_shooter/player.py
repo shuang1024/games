@@ -18,12 +18,15 @@ class Player:
         self.bullets = []
         self.last_shot = time.time()
         self.shoot_delay = 0.1
+        self.rect = pygame.Rect(self.x-self.radius, self.y-self.radius, self.radius*2, self.radius*2)
+        self.health = 100
 
     def draw(self, display):
         pygame.draw.circle(display, BLACK, (self.x, self.y), self.radius+1)
         pygame.draw.circle(display, self.color, (self.x, self.y), self.radius)
 
     def move(self, keys):
+        self.rect = pygame.Rect(self.x-self.radius, self.y-self.radius, self.radius*2, self.radius*2)
         self.x_speed *= self.drag
         self.y_speed *= self.drag
 
@@ -51,6 +54,10 @@ class Player:
                 self.bullets.remove(i)
             else:
                 i.update(display)
+
+    def check_damage(self, zombie):
+        if self.rect.colliderect(zombie.rect):
+            self.health -= .5
 
 
 class Bullet:
