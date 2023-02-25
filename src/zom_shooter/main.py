@@ -42,7 +42,7 @@ def main():
             player.check_damage(z)
             z.draw(display)
             z.move(player)
-            if z.health == 0:
+            if z.health <= 0:
                 player.score += z.damage
                 zombies.remove(z)
 

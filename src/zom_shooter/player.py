@@ -17,10 +17,10 @@ class Player:
         self.y_speed = 0
         self.bullets = []
         self.last_shot = time.time()
-        self.shoot_delay = 0.1
         self.rect = pygame.Rect(self.x-self.radius, self.y-self.radius, self.radius*2, self.radius*2)
         self.health = 100
         self.score = 0
+        self.weapon = "shotgun"
 
     def draw(self, display):
         pygame.draw.circle(display, BLACK, (self.x, self.y), self.radius+1)
@@ -44,11 +44,22 @@ class Player:
         self.y += self.y_speed
 
     def shoot(self, mouse, display):
-        if mouse.get_pressed()[0] and time.time() - self.last_shot > self.shoot_delay:
+        delay = 0
+        if self.weapon == "shotgun":
+            delay = 1
+        elif self.weapon == "pistol":
+            delay = 0.5        
+
+        if mouse.get_pressed()[0] and time.time() - self.last_shot > delay:
             self.last_shot = time.time()
             mouse_pos = mouse.get_pos()
             dir = (mouse_pos[0]-self.x, mouse_pos[1]-self.y)
-            self.bullets.append(Bullet(self.x, self.y, dir))
+            dir = math.atan2(dir[1], dir[0])
+            if self.weapon == "shotgun":
+                for i in range(-5, 6):
+                    self.bullets.append(Bullet(self.x, self.y, dir - i * 0.1))
+            elif self.weapon == "pistol":
+                self.bullets.append(Bullet(self.x, self.y, dir))
 
         for i in self.bullets:
             if i.gone:
@@ -63,7 +74,7 @@ class Player:
 
 class Bullet:
     def __init__(self, x, y, dir):
-        self.dir = math.atan2(dir[1], dir[0])
+        self.dir = dir
         self.image = pygame.transform.rotate(BULLET, 180 - math.degrees(self.dir))
         self.x = x - self.image.get_width()//2
         self.y = y - self.image.get_height()//2

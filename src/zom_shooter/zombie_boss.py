@@ -9,3 +9,4 @@ class Zombie_Boss(Zombie):
         self.normal_color = BOSS
         self.health = 15
         self.damage = 2
+        self.type = "boss"
