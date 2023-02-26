@@ -11,15 +11,25 @@ display = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Zombie Shooter")
 
 
+def draw_weapons(display, curr_weapon_ind):
+    for i in range(len(WEAPONS)):
+        if i == curr_weapon_ind:
+            pygame.draw.rect(display, BLACK, (100 + 50*i, HEIGHT-50, 50, 50), 10)
+            display.blit(WEAPONS[i], (100 + 50*i, HEIGHT-50))
+        else:
+            pygame.draw.rect(display, WHITE, (100 + 50*i, HEIGHT-50, 50, 50), 10)
+            display.blit(WEAPONS[i], (100 + 50*i, HEIGHT-50))
+
+
 def main():
     player = Player()
-
     zombies = [Zombie(50, 50)]
     start = time.time()
     last_zombie = time.time()
     last_boss = time.time()
     max_zombies = 12
     pos = [(50, 50), (WIDTH-65, 50), (50, HEIGHT-65), (WIDTH-65, HEIGHT-65)]
+    curr_weapon_ind = 0
 
     clock = pygame.time.Clock()
 
@@ -33,8 +43,19 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_0:
+                    curr_weapon_ind = 0
+                    player.weapon = "pistol"
+                if event.key == pygame.K_1:
+                    curr_weapon_ind = 1
+                    player.weapon = "shotgun"
+                if event.key == pygame.K_2:
+                    curr_weapon_ind = 2
+                    player.weapon = "assault rifle"
 
         display.fill(BG)
+        draw_weapons(display, curr_weapon_ind)
         player.draw(display)
         player.move(keys)
         player.shoot(mouse, display)

@@ -7,6 +7,6 @@ class Zombie_Boss(Zombie):
         self.radius = 30
         self.speed = 2
         self.normal_color = BOSS
-        self.health = 15
+        self.health = 10
         self.damage = 2
         self.type = "boss"

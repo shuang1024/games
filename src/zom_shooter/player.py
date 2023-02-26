@@ -20,7 +20,7 @@ class Player:
         self.rect = pygame.Rect(self.x-self.radius, self.y-self.radius, self.radius*2, self.radius*2)
         self.health = 100
         self.score = 0
-        self.weapon = "shotgun"
+        self.weapon = "pistol"
 
     def draw(self, display):
         pygame.draw.circle(display, BLACK, (self.x, self.y), self.radius+1)
@@ -43,12 +43,23 @@ class Player:
         self.x += self.x_speed
         self.y += self.y_speed
 
+        if self.x < self.radius:
+            self.x = self.radius
+        elif self.x > WIDTH-self.radius:
+            self.x = WIDTH-self.radius
+        if self.y < self.radius:
+            self.y = self.radius
+        elif self.y > HEIGHT-self.radius:
+            self.y = HEIGHT-self.radius
+
     def shoot(self, mouse, display):
         delay = 0
         if self.weapon == "shotgun":
             delay = 1
         elif self.weapon == "pistol":
-            delay = 0.5        
+            delay = 0.5
+        elif self.weapon == "assault rifle":
+            delay = 0.1
 
         if mouse.get_pressed()[0] and time.time() - self.last_shot > delay:
             self.last_shot = time.time()
@@ -58,7 +69,7 @@ class Player:
             if self.weapon == "shotgun":
                 for i in range(-5, 6):
                     self.bullets.append(Bullet(self.x, self.y, dir - i * 0.1))
-            elif self.weapon == "pistol":
+            else:
                 self.bullets.append(Bullet(self.x, self.y, dir))
 
         for i in self.bullets:
