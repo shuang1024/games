@@ -13,10 +13,10 @@ pygame.display.set_caption("Zombie Shooter")
 def draw_weapons(display, curr_weapon_ind):
     for i in range(len(WEAPONS)):
         if i == curr_weapon_ind:
-            pygame.draw.rect(display, BLACK, (100 + 50*i, HEIGHT-50, 50, 50), 10)
+            pygame.draw.rect(display, BLACK, (100 + 50*i, HEIGHT-50, 50, 50), 5)
             display.blit(WEAPONS[i], (100 + 50*i, HEIGHT-50))
         else:
-            pygame.draw.rect(display, WHITE, (100 + 50*i, HEIGHT-50, 50, 50), 10)
+            pygame.draw.rect(display, WHITE, (100 + 50*i, HEIGHT-50, 50, 50), 5)
             display.blit(WEAPONS[i], (100 + 50*i, HEIGHT-50))
 
 
@@ -45,13 +45,13 @@ def main():
                 pygame.quit()
                 return
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_0:
+                if event.key == pygame.K_1:
                     curr_weapon_ind = 0
                     player.weapon = "pistol"
-                if event.key == pygame.K_1:
+                if event.key == pygame.K_2:
                     curr_weapon_ind = 1
                     player.weapon = "shotgun"
-                if event.key == pygame.K_2:
+                if event.key == pygame.K_3:
                     curr_weapon_ind = 2
                     player.weapon = "assault rifle"
 
