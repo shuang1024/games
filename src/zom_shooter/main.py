@@ -27,6 +27,7 @@ def main():
     last_zombie = time.time()
     last_boss = time.time()
     last_fast = time.time()
+    last_fire = time.time()
     max_zombies = 20
     pos = [(50, 50), (WIDTH-65, 50), (50, HEIGHT-65), (WIDTH-65, HEIGHT-65)]
     curr_weapon_ind = 0
@@ -67,6 +68,9 @@ def main():
                 player.score += z.damage
                 zombies.remove(z)
 
+            if z.type == "fire":
+                z.shoot(player, display)
+
         if time.time() - last_zombie >= 1.5 and len(zombies) <= max_zombies:
             last_zombie = time.time()
             zombies.append(Zombie(*random.choice(pos)))
@@ -77,9 +81,14 @@ def main():
                 zombies.append(Zombie_Boss(*random.choice(pos)))
             
         if time.time() - start > 40:
-            if time.time() - last_fast >= 5 and len(zombies) <= max_zombies:
+            if time.time() - last_fast >= 3 and len(zombies) <= max_zombies:
                 last_fast = time.time()
                 zombies.append(Fast_Zombie(*random.choice(pos)))
+            
+        if time.time() - start > 60:
+            if time.time() - last_fire >= 5 and len(zombies) <= max_zombies:
+                last_fire = time.time()
+                zombies.append(Fire_Zombie(*random.choice(pos)))
 
 
 main()

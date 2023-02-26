@@ -82,6 +82,12 @@ class Player:
         if self.rect.colliderect(zombie.rect):
             self.health -= zombie.damage
 
+        if zombie.type == "fire":
+            for i in zombie.fireballs:
+                if self.rect.colliderect(i.rect):
+                    self.health -= i.damage
+                    i.gone = True
+
 
 class Bullet:
     def __init__(self, x, y, dir):

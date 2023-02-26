@@ -77,8 +77,54 @@ class Fast_Zombie(Zombie):
     def __init__(self, x, y):
         super().__init__(x, y)
         self.radius = 10
-        self.speed = 8
+        self.speed = 6
         self.normal_color = FAST
         self.health = 5
-        self.damage = 2
+        self.damage = .5
         self.type = "fast"
+
+
+class Fire_Zombie(Zombie):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.speed = 3
+        self.normal_color = FIRE
+        self.health = 10
+        self.type = "fire"
+        self.last_shot = time.time()
+        self.delay = 1.5
+        self.fireballs = []
+
+    def shoot(self, player, display):
+        if time.time() - self.last_shot > self.delay:
+            self.last_shot = time.time()
+            dir = (player.x-self.x, player.y-self.y)
+            dir = math.atan2(dir[1], dir[0])
+            self.fireballs.append(Fireball(self.x, self.y, dir))
+
+        for i in self.fireballs:
+            if i.gone:
+                self.fireballs.remove(i)
+            else:
+                i.update(display)
+
+
+class Fireball:
+    def __init__(self, x, y, dir):
+        self.dir = dir
+        self.color = FIRE
+        self.x = x
+        self.y = y
+        self.speed = 10
+        self.gone = 0
+        self.radius = 10
+        self.damage = 5
+        self.rect = pygame.Rect(self.x, self.y, self.radius*2, self.radius*2)
+
+    def update(self, display):
+        self.rect = pygame.Rect(self.x, self.y, self.radius*2, self.radius*2)
+        dir_x = math.cos(self.dir) * self.speed
+        dir_y = math.sin(self.dir) * self.speed
+        self.x += dir_x
+        self.y += dir_y
+        pygame.draw.circle(display, self.color, (self.x, self.y), self.radius)

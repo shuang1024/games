@@ -14,6 +14,7 @@ ASSAULT_RIFLE = pygame.transform.scale(pygame.image.load("shotgun.png"), (50, 50
 ZOMBIE = (0, 176, 12)
 BOSS = (0, 59, 16)
 FAST = (0, 158, 76)
+FIRE = (255, 68, 0)
 WHITE = (255, 255, 255)
 
 WEAPONS = [PISTOL, SHOTGUN, ASSAULT_RIFLE]
