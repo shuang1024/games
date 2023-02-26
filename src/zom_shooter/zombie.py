@@ -57,9 +57,8 @@ class Zombie:
                 self.color = self.damage_color
                 i.gone = True
                 self.last_damage = time.time()
-            else:
-                if time.time() - self.last_damage > 0.1:
-                    self.color = self.normal_color
+            if time.time() - self.last_damage > 0.05:
+                self.color = self.normal_color
 
 
 class Zombie_Boss(Zombie):
@@ -77,9 +76,9 @@ class Fast_Zombie(Zombie):
     def __init__(self, x, y):
         super().__init__(x, y)
         self.radius = 10
-        self.speed = 6
+        self.speed = 7
         self.normal_color = FAST
-        self.health = 5
+        self.health = 3
         self.damage = .5
         self.type = "fast"
 
@@ -128,3 +127,14 @@ class Fireball:
         self.x += dir_x
         self.y += dir_y
         pygame.draw.circle(display, self.color, (self.x, self.y), self.radius)
+
+
+class Explode_Zombie(Zombie):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.radius = 15
+        self.speed = 6
+        self.normal_color = EXPLODE
+        self.health = 5
+        self.damage = 10
+        self.type = "explode"

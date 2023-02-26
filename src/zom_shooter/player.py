@@ -68,7 +68,7 @@ class Player:
             dir = math.atan2(dir[1], dir[0])
             if self.weapon == "shotgun":
                 for i in range(-5, 6):
-                    self.bullets.append(Bullet(self.x, self.y, dir - i * 0.1))
+                    self.bullets.append(Bullet(self.x, self.y, dir - i * 0.05))
             else:
                 self.bullets.append(Bullet(self.x, self.y, dir))
 
@@ -81,6 +81,9 @@ class Player:
     def check_damage(self, zombie):
         if self.rect.colliderect(zombie.rect):
             self.health -= zombie.damage
+
+            if zombie.type == "explode":
+                zombie.health = 0
 
         if zombie.type == "fire":
             for i in zombie.fireballs:
@@ -104,3 +107,6 @@ class Bullet:
         self.x += dir_x
         self.y += dir_y
         display.blit(self.image, (self.x, self.y))
+
+        if self.x < 0 or self.x > WIDTH or self.y < 0 or self.y > HEIGHT:
+            self.gone = True
