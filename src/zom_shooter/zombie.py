@@ -60,3 +60,25 @@ class Zombie:
             else:
                 if time.time() - self.last_damage > 0.1:
                     self.color = self.normal_color
+
+
+class Zombie_Boss(Zombie):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.radius = 30
+        self.speed = 2
+        self.normal_color = BOSS
+        self.health = 10
+        self.damage = 2
+        self.type = "boss"
+
+
+class Fast_Zombie(Zombie):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.radius = 10
+        self.speed = 8
+        self.normal_color = FAST
+        self.health = 5
+        self.damage = 2
+        self.type = "fast"

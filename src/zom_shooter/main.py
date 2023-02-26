@@ -4,8 +4,7 @@ import pygame
 
 from constants import *
 from player import Player
-from zombie import Zombie
-from zombie_boss import Zombie_Boss
+from zombie import *
 
 display = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Zombie Shooter")
@@ -27,7 +26,8 @@ def main():
     start = time.time()
     last_zombie = time.time()
     last_boss = time.time()
-    max_zombies = 12
+    last_fast = time.time()
+    max_zombies = 20
     pos = [(50, 50), (WIDTH-65, 50), (50, HEIGHT-65), (WIDTH-65, HEIGHT-65)]
     curr_weapon_ind = 0
 
@@ -70,10 +70,16 @@ def main():
         if time.time() - last_zombie >= 1.5 and len(zombies) <= max_zombies:
             last_zombie = time.time()
             zombies.append(Zombie(*random.choice(pos)))
+            
         if time.time() - start > 20:
             if time.time() - last_boss >= 5 and len(zombies) <= max_zombies:
                 last_boss = time.time()
                 zombies.append(Zombie_Boss(*random.choice(pos)))
+            
+        if time.time() - start > 40:
+            if time.time() - last_fast >= 5 and len(zombies) <= max_zombies:
+                last_fast = time.time()
+                zombies.append(Fast_Zombie(*random.choice(pos)))
 
 
 main()
