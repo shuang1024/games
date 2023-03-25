@@ -1,6 +1,9 @@
 # Games
 A compilation of classic games.
 
+## Installation
+Use `git freeze > requirements.txt` to install all the required packages.
+
 ## Tetris
 Tetris is a video game created by Alexey Pajitnov, a Soviet software engineer, in 1984.
 
