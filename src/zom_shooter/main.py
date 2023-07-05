@@ -55,6 +55,9 @@ def main():
                 if event.key == pygame.K_3:
                     curr_weapon_ind = 2
                     player.weapon = "assault rifle"
+                if event.key == pygame.K_4:
+                    curr_weapon_ind = 3
+                    player.weapon = "360deg"
 
         display.fill(BG)
         draw_weapons(display, curr_weapon_ind)
@@ -95,6 +98,21 @@ def main():
             if time.time() - last_explode >= 5 and len(zombies) <= max_zombies:
                 last_explode = time.time()
                 zombies.append(Explode_Zombie(*random.choice(pos)))
+
+        while player.health <= 0:
+            pygame.display.update()
+            events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    return
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    main()
+                    return
+            lose_font = STDFONT.render("You died!", True, BLACK)
+            lose_font2 = STDFONT.render("Click to play again.", True, BLACK)
+            display.blit(lose_font, (WIDTH//2 - lose_font.get_width()//2, HEIGHT//2 - lose_font.get_height()//2 - 40))
+            display.blit(lose_font2, (WIDTH//2 - lose_font2.get_width()//2, HEIGHT//2 - lose_font2.get_height()//2 + 40))
 
 
 main()

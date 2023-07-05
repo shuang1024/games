@@ -31,13 +31,13 @@ class Player:
         self.x_speed *= self.drag
         self.y_speed *= self.drag
 
-        if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and self.x > self.radius:
+        if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and self.x >= self.radius:
             self.x_speed = -self.speed
-        if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and self.x < WIDTH-self.radius:
+        if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and self.x <= WIDTH-self.radius:
             self.x_speed = self.speed
-        if (keys[pygame.K_UP] or keys[pygame.K_w]) and self.y > self.radius:
+        if (keys[pygame.K_UP] or keys[pygame.K_w]) and self.y >= self.radius:
             self.y_speed = -self.speed
-        if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and self.y < HEIGHT-self.radius:
+        if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and self.y <= HEIGHT-self.radius:
             self.y_speed = self.speed
     
         self.x += self.x_speed
@@ -60,6 +60,8 @@ class Player:
             delay = 0.5
         elif self.weapon == "assault rifle":
             delay = 0.1
+        elif self.weapon == "360deg":
+            delay = 0.4
 
         if mouse.get_pressed()[0] and time.time() - self.last_shot > delay:
             self.last_shot = time.time()
@@ -69,6 +71,9 @@ class Player:
             if self.weapon == "shotgun":
                 for i in range(-5, 6):
                     self.bullets.append(Bullet(self.x, self.y, dir - i * 0.05))
+            elif self.weapon == "360deg":
+                for i in range(60):
+                    self.bullets.append(Bullet(self.x, self.y, math.radians(i * 6)))
             else:
                 self.bullets.append(Bullet(self.x, self.y, dir))
 

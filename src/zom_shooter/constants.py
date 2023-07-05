@@ -1,4 +1,5 @@
 import pygame
+pygame.init()
 
 WIDTH, HEIGHT = 800, 800
 FPS = 60
@@ -19,3 +20,5 @@ EXPLODE = (86, 3, 252)
 WHITE = (255, 255, 255)
 
 WEAPONS = [PISTOL, SHOTGUN, ASSAULT_RIFLE]
+
+STDFONT = pygame.font.SysFont("comicsans", 80)
