@@ -116,4 +116,4 @@ class Board:
         for r in range(ROWS):
             for c in range(COLS):
                 if self.board[r][c] != "X":
-                    pygame.draw.rect(display, COLORS[int(self.board[r][c])], (MARGIN + c*(SQ_SIZE + MARGIN), MARGIN + r*(SQ_SIZE + MARGIN), SQ_SIZE, SQ_SIZE), border_radius=5)
+                    pygame.draw.rect(display, COLORS[int(self.board[r][c])], (MARGIN + c*(SQ_SIZE + MARGIN), MARGIN + r*(SQ_SIZE + MARGIN), SQ_SIZE, SQ_SIZE), border_radius=MARGIN)
