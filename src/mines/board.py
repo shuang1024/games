@@ -7,13 +7,19 @@ from constants import *
 
 class Board:
     def __init__(self):
-        self.board = []
+        self.d_board = []
         for i in range(ROWS):
-            self.board.append([])
+            self.d_board.append([])
             for j in range(COLS):
-                self.board[i].append("-")
-        self._place_mines()
-        self._update()
+                self.d_board[i].append(-1)
+
+        self.g_board = []
+        for i in range(ROWS):
+            self.g_board.append([])
+            for j in range(COLS):
+                self.g_board[i].append(-1)
+
+        self.mines = self._place_mines()
 
     def _place_mines(self):
         xy = []
@@ -23,97 +29,107 @@ class Board:
             while (my, mx) in xy:
                 mx = random.randint(0, COLS-1)
             xy.append((my, mx))
-            self.board[my][mx] = "X"
+            self.g_board[my][mx] = -2
 
-    def _get_value(self, x, y):
+        return xy
+
+    def _get_value(self, y, x):
         value = 0
         try:
-            if self.board[y-1][x-1] == "X":
+            if self.g_board[y-1][x-1] == -2:
                 value += 1
         except:
             pass
         try:
-            if self.board[y][x-1] == "X":
+            if self.g_board[y][x-1] == -2:
                 value += 1
         except:
             pass
         try:
-            if self.board[y+1][x-1] == "X":
+            if self.g_board[y+1][x-1] == -2:
                 value += 1
         except:
             pass
         try:
-            if self.board[y-1][x] == "X":
+            if self.g_board[y-1][x] == -2:
                 value += 1
         except:
             pass
         try:
-            if self.board[y+1][x] == "X":
+            if self.g_board[y+1][x] == -2:
                 value += 1
         except:
             pass
         try:
-            if self.board[y-1][x+1] == "X":
+            if self.g_board[y-1][x+1] == -2:
                 value += 1
         except:
             pass
         try:
-            if self.board[y][x+1] == "X":
+            if self.g_board[y][x+1] == -2:
                 value += 1
         except:
             pass
         try:
-            if self.board[y+1][x+1] == "X":
+            if self.g_board[y+1][x+1] == -2:
                 value += 1
         except:
             pass
 
         return value
 
-    def _get_neighbors(self, x, y):
+    def _get_neighbors(self, y, x):
         neighbors = []
         try:
-            neighbors.append(self.board[y-1][x-1])
+            neighbors.append(self.g_board[y-1][x-1])
         except:
             pass
         try:
-            neighbors.append(self.board[y][x-1])
+            neighbors.append(self.g_board[y][x-1])
         except:
             pass
         try:
-            neighbors.append(self.board[y+1][x-1])
-        except:
-            pass
-            neighbors.append(self.board[y-1][x])
-        try:
-            neighbors.append(self.board[y+1][x])
+            neighbors.append(self.g_board[y+1][x-1])
         except:
             pass
         try:
-            neighbors.append(self.board[y-1][x+1])
+            neighbors.append(self.g_board[y-1][x])
         except:
             pass
         try:
-            neighbors.append(self.board[y][x+1])
+            neighbors.append(self.g_board[y+1][x])
         except:
             pass
         try:
-            neighbors.append(self.board[y+1][x+1])
+            neighbors.append(self.g_board[y-1][x+1])
+        except:
+            pass
+        try:
+            neighbors.append(self.g_board[y][x+1])
+        except:
+            pass
+        try:
+            neighbors.append(self.g_board[y+1][x+1])
         except:
             pass
 
         return neighbors
 
-    def _update(self):
-        for y in range(ROWS):
-            for x in range(COLS):
-                if self.board[y][x] != "X":
-                    self.board[y][x] = self._get_value(x, y)
+    '''
+    1    4    6
+
+    2         7
+
+    3    5    8
+    '''
+
+    def click(self, y, x):
+            if (y, x) in self.mines:
+                self.d_board[y][x] = -2
+            else:
+                self.d_board[y][x] = self._get_value(y, x)
 
     def draw(self, display):
-        self._update()
-        display.fill(BG)
         for r in range(ROWS):
             for c in range(COLS):
-                if self.board[r][c] != "X":
-                    pygame.draw.rect(display, COLORS[int(self.board[r][c])], (MARGIN + c*(SQ_SIZE + MARGIN), MARGIN + r*(SQ_SIZE + MARGIN), SQ_SIZE, SQ_SIZE), border_radius=MARGIN)
+                pygame.draw.rect(display, COLORS[self.d_board[r][c]], (MARGIN + c*(SQ_SIZE + MARGIN), MARGIN + r*(SQ_SIZE + MARGIN), SQ_SIZE, SQ_SIZE), border_radius=MARGIN)
