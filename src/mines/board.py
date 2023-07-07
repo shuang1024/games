@@ -24,6 +24,8 @@ class Board:
             for x in range(COLS):
                 if self.g_board[y][x] != -2:
                     self.g_board[y][x] = self._get_value(y, x)
+        
+        self.flags = []
 
     def _place_mines(self):
         xy = []
@@ -69,41 +71,56 @@ class Board:
     '''
 
     def click(self, y, x):
-        if self.g_board[y][x] != 0:
-            self.d_board[y][x] = self.g_board[y][x]
-        else:
-            update = [(y, x)]
-            prev_update = None
-            while update != prev_update:
-                prev_update = update
+        if (y, x) not in self.flags:
+            if self.g_board[y][x] != 0:
+                self.d_board[y][x] = self.g_board[y][x]
+            else:
+                update = [(y, x)]
+                prev_update = None
+                while update != prev_update:
+                    prev_update = update
+                    for u in update:
+                        n = self._get_neighbors(u[0], u[1])
+                        for i in n:
+                            if i[1] == 0:
+                                if (u[0]+i[0][0], u[1]+i[0][1]) not in update:
+                                    update.append((u[0]+i[0][0], u[1]+i[0][1]))
+
+                a = []
                 for u in update:
                     n = self._get_neighbors(u[0], u[1])
                     for i in n:
-                        if i[1] == 0:
-                            if (u[0]+i[0][0], u[1]+i[0][1]) not in update:
-                                update.append((u[0]+i[0][0], u[1]+i[0][1]))
+                        if (u[0]+i[0][0], u[1]+i[0][1]) not in update:
+                            a.append((u[0]+i[0][0], u[1]+i[0][1]))
 
-            a = []
-            for u in update:
-                n = self._get_neighbors(u[0], u[1])
-                for i in n:
-                    if (u[0]+i[0][0], u[1]+i[0][1]) not in update:
-                        a.append((u[0]+i[0][0], u[1]+i[0][1]))
+                for i in a:
+                    update.append(i)
 
-            for i in a:
-                update.append(i)
+                for i in update:
+                    self.d_board[i[0]][i[1]] = self.g_board[i[0]][i[1]]
 
-            for i in update:
-                self.d_board[i[0]][i[1]] = self.g_board[i[0]][i[1]]
+    def flag(self, y, x):
+        if self.d_board[y][x] == -1:
+            self.flags.append((y, x))
+            self.d_board[y][x] = "f"
+        elif self.d_board[y][x] == "f":
+            self.flags.remove((y, x))
+            self.d_board[y][x] = -1
 
     def draw(self, display):
         for r in range(ROWS):
             for c in range(COLS):
-                x = MARGIN + c*(SQ_SIZE + MARGIN)
-                y = MARGIN + r*(SQ_SIZE + MARGIN)
-                pygame.draw.rect(display, COLORS[self.d_board[r][c]], (x, y, SQ_SIZE, SQ_SIZE), border_radius=MARGIN)
-                if self.d_board[r][c] in (1, 2, 3, 4, 5, 6, 7, 8):
-                    tx = x + SQ_SIZE//2
-                    ty = y + SQ_SIZE//2
-                    text = STDFONT.render(str(self.d_board[r][c]), True, BLACK)
-                    display.blit(text, (tx-text.get_width()//2, ty-text.get_height()//2))
+                if (r, c) in self.flags:
+                    x = MARGIN + c*(SQ_SIZE + MARGIN)
+                    y = MARGIN + r*(SQ_SIZE + MARGIN)
+                    pygame.draw.rect(display, COLORS[-1], (x, y, SQ_SIZE, SQ_SIZE), border_radius=MARGIN)
+                    display.blit(pygame.image.load("flag.png"), (x+5, y+5))
+                else:
+                    x = MARGIN + c*(SQ_SIZE + MARGIN)
+                    y = MARGIN + r*(SQ_SIZE + MARGIN)
+                    pygame.draw.rect(display, COLORS[self.d_board[r][c]], (x, y, SQ_SIZE, SQ_SIZE), border_radius=MARGIN)
+                    if self.d_board[r][c] in (1, 2, 3, 4, 5, 6, 7, 8):
+                        tx = x + SQ_SIZE//2
+                        ty = y + SQ_SIZE//2
+                        text = STDFONT.render(str(self.d_board[r][c]), True, BLACK)
+                        display.blit(text, (tx-text.get_width()//2, ty-text.get_height()//2))

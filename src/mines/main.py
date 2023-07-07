@@ -27,6 +27,8 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     board.click(*rc_mousepos(mousepos))
+                elif event.button == 3:
+                    board.flag(*rc_mousepos(mousepos))
             
         display.fill(BG)
         board.draw(display)
