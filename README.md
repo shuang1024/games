@@ -12,7 +12,7 @@ The goal of the game is to score as many points as possible, without letting any
 
 You can remove a row by filling it completely with blocks. That will earn you 10 points.
 
-Every block that is dropped or cannot move anymore is 5 ponits.
+Every block that is dropped or cannot move anymore is 5 points.
 
 ### Rules
 left arrow - move block left
