@@ -18,8 +18,11 @@ class Board:
             self.g_board.append([])
             for j in range(COLS):
                 self.g_board[i].append(-1)
-
         self.mines = self._place_mines()
+        for y in range(ROWS):
+            for x in range(COLS):
+                if self.g_board[y][x] != -2:
+                    self.g_board[y][x] = self._get_value(y, x)
 
     def _place_mines(self):
         xy = []
@@ -28,50 +31,58 @@ class Board:
             my = random.randint(0, ROWS-1)
             while (my, mx) in xy:
                 mx = random.randint(0, COLS-1)
+                my = random.randint(0, ROWS-1)
             xy.append((my, mx))
             self.g_board[my][mx] = -2
 
         return xy
 
+    def _valid(self, y, x):
+        if y > -1 and y < ROWS:
+            if x > -1 and x < COLS:
+                return True
+            return False
+        return False
+
     def _get_value(self, y, x):
         value = 0
         try:
-            if self.g_board[y-1][x-1] == -2:
+            if self.g_board[y-1][x-1] == -2 and self._valid(y-1, x-1):
                 value += 1
         except:
             pass
         try:
-            if self.g_board[y][x-1] == -2:
+            if self.g_board[y][x-1] == -2 and self._valid(y, x-1):
                 value += 1
         except:
             pass
         try:
-            if self.g_board[y+1][x-1] == -2:
+            if self.g_board[y+1][x-1] == -2 and self._valid(y+1, x-1):
                 value += 1
         except:
             pass
         try:
-            if self.g_board[y-1][x] == -2:
+            if self.g_board[y-1][x] == -2 and self._valid(y-1, x):
                 value += 1
         except:
             pass
         try:
-            if self.g_board[y+1][x] == -2:
+            if self.g_board[y+1][x] == -2 and self._valid(y+1, x):
                 value += 1
         except:
             pass
         try:
-            if self.g_board[y-1][x+1] == -2:
+            if self.g_board[y-1][x+1] == -2 and self._valid(y-1, x+1):
                 value += 1
         except:
             pass
         try:
-            if self.g_board[y][x+1] == -2:
+            if self.g_board[y][x+1] == -2 and self._valid(y, x+1):
                 value += 1
         except:
             pass
         try:
-            if self.g_board[y+1][x+1] == -2:
+            if self.g_board[y+1][x+1] == -2 and self._valid(y+1, x+1):
                 value += 1
         except:
             pass
@@ -124,10 +135,7 @@ class Board:
     '''
 
     def click(self, y, x):
-            if (y, x) in self.mines:
-                self.d_board[y][x] = -2
-            else:
-                self.d_board[y][x] = self._get_value(y, x)
+            self.d_board[y][x] = self.g_board[y][x]
 
     def draw(self, display):
         for r in range(ROWS):
