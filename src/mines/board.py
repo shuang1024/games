@@ -99,4 +99,11 @@ class Board:
     def draw(self, display):
         for r in range(ROWS):
             for c in range(COLS):
-                pygame.draw.rect(display, COLORS[self.d_board[r][c]], (MARGIN + c*(SQ_SIZE + MARGIN), MARGIN + r*(SQ_SIZE + MARGIN), SQ_SIZE, SQ_SIZE), border_radius=MARGIN)
+                x = MARGIN + c*(SQ_SIZE + MARGIN)
+                y = MARGIN + r*(SQ_SIZE + MARGIN)
+                pygame.draw.rect(display, COLORS[self.d_board[r][c]], (x, y, SQ_SIZE, SQ_SIZE), border_radius=MARGIN)
+                if self.d_board[r][c] in (1, 2, 3, 4, 5, 6, 7, 8):
+                    tx = x + SQ_SIZE//2
+                    ty = y + SQ_SIZE//2
+                    text = STDFONT.render(str(self.d_board[r][c]), True, BLACK)
+                    display.blit(text, (tx-text.get_width()//2, ty-text.get_height()//2))

@@ -1,3 +1,6 @@
+import pygame
+pygame.init()
+
 SQ_SIZE = 113
 MARGIN = 3
 ROWS = 8
@@ -6,7 +9,9 @@ MINES = 10
 
 WIDTH = COLS * SQ_SIZE + (COLS + 1) * MARGIN
 HEIGHT = ROWS * SQ_SIZE + (ROWS + 1) * MARGIN
+FPS = 60
 
+BLACK = (46, 52, 54)
 BG = (62, 62, 62)
 ZERO = (222, 222, 220)
 ONE = (221, 250, 195)
@@ -22,4 +27,4 @@ UNACTIVE = (185, 187, 181)
 
 COLORS = [ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, MINE, UNACTIVE]
 
-FPS = 60
+STDFONT = pygame.font.SysFont("helvetica", 80, True)
