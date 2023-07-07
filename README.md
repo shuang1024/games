@@ -55,7 +55,7 @@ r - new game
 Snake is part of a sub-genre of video games called "snake games", and it started in 1976 with the video game Blockade, made by Gremlin Industries. The video game that is called "Snake" was created for Nokia phones in 1998.
 
 ### Goal
-The gole of snake is to eat as many apples as possible without dying.
+The goal of snake is to eat as many apples as possible without dying.
 
 You die when you either crash into the border or into yourself.
 
