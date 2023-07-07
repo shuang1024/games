@@ -6,6 +6,7 @@ from constants import *
 
 
 class Board:
+    offsets = [(-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)]
     def __init__(self):
         self.d_board = []
         for i in range(ROWS):
@@ -46,84 +47,17 @@ class Board:
 
     def _get_value(self, y, x):
         value = 0
-        try:
-            if self.g_board[y-1][x-1] == -2 and self._valid(y-1, x-1):
-                value += 1
-        except:
-            pass
-        try:
-            if self.g_board[y][x-1] == -2 and self._valid(y, x-1):
-                value += 1
-        except:
-            pass
-        try:
-            if self.g_board[y+1][x-1] == -2 and self._valid(y+1, x-1):
-                value += 1
-        except:
-            pass
-        try:
-            if self.g_board[y-1][x] == -2 and self._valid(y-1, x):
-                value += 1
-        except:
-            pass
-        try:
-            if self.g_board[y+1][x] == -2 and self._valid(y+1, x):
-                value += 1
-        except:
-            pass
-        try:
-            if self.g_board[y-1][x+1] == -2 and self._valid(y-1, x+1):
-                value += 1
-        except:
-            pass
-        try:
-            if self.g_board[y][x+1] == -2 and self._valid(y, x+1):
-                value += 1
-        except:
-            pass
-        try:
-            if self.g_board[y+1][x+1] == -2 and self._valid(y+1, x+1):
-                value += 1
-        except:
-            pass
-
+        for i in self.offsets:
+            if self._valid(y+i[0], x+i[1]):
+                if self.g_board[y+i[0]][x+i[1]] == -2:
+                    value += 1
         return value
 
     def _get_neighbors(self, y, x):
         neighbors = []
-        try:
-            neighbors.append(self.g_board[y-1][x-1])
-        except:
-            pass
-        try:
-            neighbors.append(self.g_board[y][x-1])
-        except:
-            pass
-        try:
-            neighbors.append(self.g_board[y+1][x-1])
-        except:
-            pass
-        try:
-            neighbors.append(self.g_board[y-1][x])
-        except:
-            pass
-        try:
-            neighbors.append(self.g_board[y+1][x])
-        except:
-            pass
-        try:
-            neighbors.append(self.g_board[y-1][x+1])
-        except:
-            pass
-        try:
-            neighbors.append(self.g_board[y][x+1])
-        except:
-            pass
-        try:
-            neighbors.append(self.g_board[y+1][x+1])
-        except:
-            pass
-
+        for i in self.offsets:
+            if self._valid(y+i[0], x+i[1]):
+                neighbors.append((i, self.g_board[y+i[0]][x+i[1]]))
         return neighbors
 
     '''
@@ -135,7 +69,32 @@ class Board:
     '''
 
     def click(self, y, x):
+        if self.g_board[y][x] != 0:
             self.d_board[y][x] = self.g_board[y][x]
+        else:
+            update = [(y, x)]
+            prev_update = None
+            while update != prev_update:
+                prev_update = update
+                for u in update:
+                    n = self._get_neighbors(u[0], u[1])
+                    for i in n:
+                        if i[1] == 0:
+                            if (u[0]+i[0][0], u[1]+i[0][1]) not in update:
+                                update.append((u[0]+i[0][0], u[1]+i[0][1]))
+
+            a = []
+            for u in update:
+                n = self._get_neighbors(u[0], u[1])
+                for i in n:
+                    if (u[0]+i[0][0], u[1]+i[0][1]) not in update:
+                        a.append((u[0]+i[0][0], u[1]+i[0][1]))
+
+            for i in a:
+                update.append(i)
+
+            for i in update:
+                self.d_board[i[0]][i[1]] = self.g_board[i[0]][i[1]]
 
     def draw(self, display):
         for r in range(ROWS):
