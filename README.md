@@ -68,3 +68,32 @@ right arrow - move right
 up arrow - move up
 
 down arrow - move down
+
+## Zombie Shooter
+Zombie shooter is a game created by shuang1024, with inspiration from the mobile game Awesome Tanks.
+
+### Goal
+The goal of zombie shooter is to kill as many "zombies" as possible. You are a circle and the zombies are the other circles.
+
+### Types of Zombies
+Normal - Regular size, slow, less damage
+
+Boss - Double size, slow, more damage
+
+Quick - Small size, fast, moderate damage
+
+Fire - Regular size, less damage, shoots fireballs
+
+Explode - Regular size, more damage, dies on contact
+
+### Rules
+
+arrow keys - move
+
+1 - pistol
+
+2 - shotgun
+
+3 - assault rifle
+
+4 - ???
