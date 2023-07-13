@@ -27,4 +27,5 @@ UNACTIVE = (185, 187, 181)
 
 COLORS = [ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, MINE, UNACTIVE]
 
-STDFONT = pygame.font.SysFont("helvetica", 80, True)
+CELLFONT = pygame.font.SysFont("helvetica", 80, True)
+STDFONT = pygame.font.SysFont("helvetica", 40, True)

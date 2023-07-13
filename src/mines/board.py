@@ -7,6 +7,7 @@ from constants import *
 
 class Board:
     offsets = [(-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)]
+
     def __init__(self):
         self.d_board = []
         for i in range(ROWS):
@@ -24,8 +25,16 @@ class Board:
             for x in range(COLS):
                 if self.g_board[y][x] != -2:
                     self.g_board[y][x] = self._get_value(y, x)
-        
+
+        self.not_mines = []
+        for i in range(COLS):
+            for j in range(ROWS):
+                self.not_mines.append((i, j))
+        for i in self.mines:
+            self.not_mines.remove(i)
+
         self.flags = []
+        self.stat = None
 
     def _place_mines(self):
         xy = []
@@ -72,6 +81,8 @@ class Board:
 
     def click(self, y, x):
         if (y, x) not in self.flags:
+            if self.g_board[y][x] == -2:
+                self.stat = False
             if self.g_board[y][x] != 0:
                 self.d_board[y][x] = self.g_board[y][x]
             else:
@@ -122,5 +133,12 @@ class Board:
                     if self.d_board[r][c] in (1, 2, 3, 4, 5, 6, 7, 8):
                         tx = x + SQ_SIZE//2
                         ty = y + SQ_SIZE//2
-                        text = STDFONT.render(str(self.d_board[r][c]), True, BLACK)
+                        text = CELLFONT.render(str(self.d_board[r][c]), True, BLACK)
                         display.blit(text, (tx-text.get_width()//2, ty-text.get_height()//2))
+
+    def check_win(self):
+        for i in self.not_mines:
+            if self.d_board[i[0]][i[1]] == -1:
+                return
+
+        self.stat = True
