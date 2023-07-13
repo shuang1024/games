@@ -97,3 +97,17 @@ arrow keys - move
 3 - assault rifle
 
 4 - ???
+
+## Minesweeper
+Minesweeper is a logic puzzle video game that features a grid of cells, with hidden landmines randomly placed around the grid.
+
+### Goal
+The goal of minesweeper is to select all of the non-landmine cells without clicking on any landmine cells.
+
+### Rules
+
+left mouse - expose cell
+
+right mouse - flag cell
+
+space - restart
