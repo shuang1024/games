@@ -2,7 +2,7 @@
 A compilation of classic games.
 
 ## Installation
-Use `git freeze > requirements.txt` to install all the required packages.
+You must have pygame 2.x.x installed.
 
 ## Tetris
 Tetris is a video game created by Alexey Pajitnov, a Soviet software engineer, in 1984.
